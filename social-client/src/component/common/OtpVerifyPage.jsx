@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 const OtpVerifyPage = () => {
   const [otp, setOtp] = useState("");
+
+  const history = useHistory();
+
   async function handleSubmit(e) {
     try {
       if (otp === "") {
@@ -26,6 +29,9 @@ const OtpVerifyPage = () => {
       const data = await response.json();
 
       console.log(data);
+      if (response.status === 200) {
+        history.push("/login");
+      }
     } catch (error) {}
   }
   return (

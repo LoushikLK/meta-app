@@ -231,7 +231,7 @@ router.post("/emailverification", async (req, res) => {
                     })
 
 
-                    res.status(200).redirect("/login")
+                    res.status(200).clearCookie("userdata").json({ message: `Welcome ${userdata.firstname}` })
 
                     return
 
@@ -242,10 +242,7 @@ router.post("/emailverification", async (req, res) => {
                 }
             })
         }
-        else {
-            console.log("cookies email and jwt email not match");
-            return res.status(400).clearCookie().json({ message: "Something went wrong please Sign up again" })
-        }
+
 
 
     }
