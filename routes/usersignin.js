@@ -135,46 +135,22 @@ router.post("/signup", async (req, res) => {
                     }
                 });
 
-                let otp = Math.random().toFixed(4) * 10000
+
+                var otp = Math.floor(1000 + Math.random() * 9000);
 
                 console.log(otp);
 
-                let jwttoken = jwt.sign({ email: email }, process.env.EMAIL_JWT_SECRET, { expiresIn: "1h" });
+                // let jwttoken = jwt.sign({ email: email }, process.env.EMAIL_JWT_SECRET, { expiresIn: "1h" });
 
-                console.log(jwttoken);
+                // console.log(jwttoken);
 
                 const mailOptions = {
                     from: "gangmbj@gmail.com",
                     to: email,
                     subject: "META Email Confirm",
                     generateTextFromHTML: true,
-                    text: `copy and paste the link in your browser to verify http://${process.env.HOST_NAME}:${process.env.PORT}/usersignin/emailverification/${jwttoken}`,
-                    html: `<div style="
-                    display: flex;
-                    flex-direction: column;
-                    background-color: #61b2ff;
-                    width: 100%;
-                    align-items: center;
-                    padding: 2rem 0;
-                ">
-                        <h2 style="
-                        color: #fcffff;">Click Below To Verify Your Account</h2>
-                        <p>Thanks For registration,you are a amazing human being. Verify your email by click below. </p>
-                        <button style="
-                        background-color: #b4fff7;
-                        padding: 0.5rem;
-                        border-radius: .5rem;
-                        border: none;
-                    ">
-                            <a style="
-                            text-decoration: none;
-                            color: #071d5a;"
-                                href="http://${process.env.HOST_NAME}:${process.env.PORT}/usersignin/emailverification/${jwttoken}">Click
-                                To Verify</a>
-                        </button>
-                
-                    </div>
-                            `
+                    text: `${otp}`,
+                    html: `<b>Your OTP is${otp}</>`
                 };
 
 
@@ -184,13 +160,20 @@ router.post("/signup", async (req, res) => {
                     transporter.close();
                 });
 
-                let usercookiedata = {
-                    email, firstname, lastname, gender, password
+                let hashotp = await bcrypt.hash(`${otp}`, saltRound)
+
+                if (hashotp) {
+
+                    let usercookiedata = {
+                        email, firstname, lastname, gender, password, otp: hashotp
+                    }
+
+                    res.status(200).cookie("userdata", usercookiedata, { httpOnly: true }).json({ message: "email send to reciver" })
+
+                    return
                 }
 
-                res.status(200).cookie("userdata", usercookiedata, { httpOnly: true }).json({ message: "email send to reciver" })
 
-                return
             }
 
         }
@@ -205,26 +188,29 @@ router.post("/signup", async (req, res) => {
     }
 })
 
-router.get("/emailverification/:tokenid", async (req, res) => {
+router.post("/emailverification", async (req, res) => {
 
     try {
-        console.log(req.cookies.userdata)
+        // console.log(req.cookies)
+        console.log(req.body);
         let userdata = req.cookies.userdata
-        console.log(`${userdata.firstName} ${userdata.lastName}`);
-        const verified = jwt.verify(req.params.tokenid, process.env.EMAIL_JWT_SECRET);
+        console.log(userdata);
+        console.log(`${userdata.firstname} ${userdata.lastname}`);
 
-        console.log(verified);
+        const verified = await bcrypt.compare(req.body.otp, req.cookies.userdata.otp)
+
+        console.log(verified + " yes");
 
         if (!verified) {
 
-            res.status(400).json({ message: "user not verified" })
+            res.status(400).json({ message: "Wrong OTP .Check Your Email." })
             return
 
         }
 
 
 
-        if (verified.email === userdata.email) {
+        else if (verified) {
 
 
 
@@ -239,7 +225,7 @@ router.get("/emailverification/:tokenid", async (req, res) => {
                     })
 
                     userProfileData.save().then(() => {
-                        console.log("save data to db");
+                        console.log("new user saved to db");
                     }).catch((err) => {
                         console.log(err);
                     })
