@@ -148,10 +148,10 @@ router.post("/signup", async (req, res) => {
                     to: email,
                     subject: "META Email Confirm",
                     generateTextFromHTML: true,
-                    text: `copy and paste the link http://${window.location.host}/usersignin/emailverification/${jwttoken}`,
+                    text: `copy and paste the link http://${process.env.HOST_NAME}:${process.env.PORT}/usersignin/emailverification/${jwttoken}`,
                     html: `<h1>Click on the Button below to verify your email.</h1>
                             <br>
-                            <a href="http://${window.location.host}/usersignin/emailverification/${jwttoken}"><button>Click To Verify</button></a>
+                            <a href="http://${process.env.HOST_NAME}:${process.env.PORT}/usersignin/emailverification/${jwttoken}"><button>Click To Verify</button></a>
                             `
                 };
 
