@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./upload-ui.css";
 import AddImage from "../../image/upload-ui/photos.png";
-import { useSelector } from "react-redux";
 
 const PostUpload = () => {
   const [fileDetail, setFileDetail] = useState({
