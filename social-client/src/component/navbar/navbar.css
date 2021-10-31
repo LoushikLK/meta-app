@@ -1,0 +1,12 @@
+.navlogo {
+  height: 2rem;
+}
+.searcharea {
+  height: 2rem;
+}
+.navbar-main {
+  background-color: #ffffff;
+  border-bottom: 1px solid #00000040;
+  box-shadow: 0px 0px 20px 14px #00000063;
+  z-index: 99999999999999;
+}

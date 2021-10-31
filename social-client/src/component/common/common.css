@@ -1,0 +1,78 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 30px;
+}
+
+.gallery img {
+  width: 100%;
+}
+
+.login-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-form {
+  box-shadow: 0px 0px 20px 2px #4496ff99;
+  border: 1px solid #0887ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2.5rem;
+  flex-direction: column;
+}
+.login-form form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+}
+
+.login-form input {
+  border: 0 solid;
+  background-color: #c2dbff;
+  border-radius: 2rem;
+  width: 20rem;
+  height: 2.5rem;
+  padding: 1rem;
+}
+.login-form input:focus {
+  outline: none;
+}
+
+.login-form [type="Submit"] {
+  border-radius: 2rem;
+  height: 2.5rem;
+}
+
+.login-form input[type="radio"] {
+  border: 1 solid blue;
+  background-color: #c2dbff;
+  border-radius: 2rem;
+  width: 100%;
+  height: auto;
+  padding: 0;
+}
+
+.popup {
+  position: fixed;
+  top: 20%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.profile-complete {
+  min-height: 100vh;
+}
+.upload-profile-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.complete-profile-form input[type="text"] {
+  font-size: 1rem;
+}
