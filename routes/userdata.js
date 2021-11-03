@@ -7,9 +7,7 @@ const jwt = require("jsonwebtoken")
 router.get("/", auth, async (req, res) => {
     try {
 
-        console.log("main routes");
-
-
+        // console.log("main routes");
 
 
         let token = req.cookies.authtoken

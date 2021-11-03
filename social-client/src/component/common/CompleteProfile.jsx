@@ -7,13 +7,10 @@ import { useHistory } from "react-router-dom";
 const CompleteProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [profilePreview, setProfilePreview] = useState("");
-  const [coverPhoto, setCoverPhoto] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [relationStatus, setRelationStatus] = useState("");
   const [profession, setProfession] = useState("");
-
-  const userDetail = JSON.parse(localStorage.getItem("userData"));
 
   // console.log(userDetail);
 
@@ -21,7 +18,6 @@ const CompleteProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      userDetail._id === null ||
       profilePhoto === "" ||
       bio === "" ||
       location === "" ||
@@ -38,15 +34,14 @@ const CompleteProfile = () => {
 
       formData.append("file", profilePhoto);
 
-      let details = JSON.stringify({
-        id: userDetail._id,
+      let details = {
         location: location,
         bio: bio,
         relationStatus: relationStatus,
         profession: profession,
-      });
+      };
 
-      formData.append("details", details);
+      formData.append("details", JSON.stringify(details));
 
       axios
         .post(uri, formData, {
@@ -55,8 +50,9 @@ const CompleteProfile = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.status === 200) {
+            // console.log("hello");
             history.push("/login");
           }
         })

@@ -195,14 +195,14 @@ router.post("/emailverification", async (req, res) => {
 
     try {
         // console.log(req.cookies)
-        console.log(req.body);
+        // console.log(req.body);
         let userdata = req.cookies.userdata
-        console.log(userdata);
+        // console.log(userdata);
         console.log(`${userdata.firstname} ${userdata.lastname}`);
 
         const verified = await bcrypt.compare(req.body.otp, req.cookies.userdata.otp)
 
-        console.log(verified + " yes");
+        // console.log(verified + " yes");
 
         if (!verified) {
 
@@ -217,38 +217,40 @@ router.post("/emailverification", async (req, res) => {
 
 
 
-            bcrypt.hash(userdata.password, saltRound, (err, result) => {
-                if (result) {
-                    console.log(result);
-                    let userProfileData = new profileDb({
-                        email: userdata.email,
-                        password: result,
-                        profileName: `${userdata.firstname} ${userdata.lastname}`,
-                        about: [{ gender: userdata.gender }],
-                        new: true,
-                        profileCreated: new Date(Date.now()).toLocaleDateString()
-                    })
+            let result = await bcrypt.hash(userdata.password, saltRound)
+            if (result) {
+                // console.log(result);
+                let userProfileData = new profileDb({
+                    email: userdata.email,
+                    password: result,
+                    profileName: `${userdata.firstname} ${userdata.lastname}`,
+                    about: [{ gender: userdata.gender }],
+                    new: true,
+                    profileCreated: new Date(Date.now()).toLocaleDateString()
+                })
 
-                    userProfileData.save().then(() => {
-                        console.log("new user saved to db");
-                    }).catch((err) => {
-                        console.log(err);
-                    })
+                let response = await userProfileData.save()
 
+                if (response) {
 
-                    res.status(200).clearCookie("userdata").json({ message: `Welcome ${userdata.firstname}` })
+                    let jwttoken = jwt.sign({ _id: response._id }, process.env.LOGIN_JWT_SECRET, { expiresIn: "1h" });
+
+                    res.status(200).cookie("authtoken", jwttoken).clearCookie("userdata").json({ message: `Welcome ${userdata.firstname}` })
+
 
                     return
-
                 }
+
+
+
                 else {
                     console.log("Could not Create hash Password");
                     res.status(400).json({ message: "Something Went Wrong. Try Again. " })
                 }
-            })
+            }
+
+
         }
-
-
 
     }
     catch (err) {
