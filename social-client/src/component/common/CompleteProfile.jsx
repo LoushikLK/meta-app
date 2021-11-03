@@ -17,9 +17,8 @@ const CompleteProfile = () => {
 
   // console.log(userDetail);
 
+  const history = useHistory();
   const handleSubmit = async (e) => {
-    const history = useHistory();
-
     e.preventDefault();
     if (
       userDetail._id === null ||
@@ -77,7 +76,7 @@ const CompleteProfile = () => {
 
   return (
     <>
-      <div className="profile-complete d-flex flex-column">
+      <div className="profile-complete d-flex flex-column mt-3">
         <h1 className="text-center">Complete Your Profile In few Step</h1>
         <div className="upload-profile-detail">
           <form className="d-flex align-items-center justify-content-center flex-column complete-profile-form">
@@ -152,41 +151,45 @@ const CompleteProfile = () => {
               }}
               value={profession}
             />
-            <label htmlFor="add-relationship">Add Relationship status?</label>
-            <span>
-              Single
-              <input
-                type="radio"
-                id="addrelationshipn"
-                name="relationship status"
-                value="Single"
-                onFocus={(e) => {
-                  setRelationStatus(e.target.value);
-                }}
-              />
-            </span>
-            <span>
-              Married
-              <input
-                type="radio"
-                name="relationship status"
-                value="Married"
-                onFocus={(e) => {
-                  setRelationStatus(e.target.value);
-                }}
-              />
-            </span>
-            <span>
-              Friendzoned
-              <input
-                type="radio"
-                name="relationship status"
-                value="Friendzoned"
-                onFocus={(e) => {
-                  setRelationStatus(e.target.value);
-                }}
-              />
-            </span>
+            <label htmlFor="add-relationship mx-1">
+              Add Relationship status?
+            </label>
+            <div className="d-flex flex-row w-100 justify-content-evenly mx-2">
+              <span>
+                Single
+                <input
+                  type="radio"
+                  id="addrelationshipn"
+                  name="relationship status"
+                  value="Single"
+                  onFocus={(e) => {
+                    setRelationStatus(e.target.value);
+                  }}
+                />
+              </span>
+              <span>
+                Married
+                <input
+                  type="radio"
+                  name="relationship status"
+                  value="Married"
+                  onFocus={(e) => {
+                    setRelationStatus(e.target.value);
+                  }}
+                />
+              </span>
+              <span>
+                Friendzoned
+                <input
+                  type="radio"
+                  name="relationship status"
+                  value="Friendzoned"
+                  onFocus={(e) => {
+                    setRelationStatus(e.target.value);
+                  }}
+                />
+              </span>
+            </div>
             <button
               type="submit"
               onClick={handleSubmit}

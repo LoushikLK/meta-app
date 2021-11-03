@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CompleteProfile from "./CompleteProfile";
 const OtpVerifyPage = () => {
   const [otp, setOtp] = useState("");
   const [completeProfile, setCompleteProfile] = useState(false);
@@ -30,15 +31,16 @@ const OtpVerifyPage = () => {
 
       if (response.status === 200) {
         setCompleteProfile(true);
+        console.log("response 200");
       }
     } catch (error) {}
   }
   return (
     <>
       {completeProfile ? (
-        <completeProfile />
+        <CompleteProfile />
       ) : (
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center mt-3">
           <header className="btn btn-primary px-4 fs-3">
             Thank You For Sign Up
           </header>
@@ -47,7 +49,7 @@ const OtpVerifyPage = () => {
             account.
           </p>
           <form>
-            <div class="mb-3">
+            <div className="mb-3">
               <input
                 type="number"
                 className="form-control"
