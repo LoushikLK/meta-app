@@ -1,51 +1,71 @@
 import React, { useState } from "react";
 import "./common.css";
 import addimage from "../../image/default/addimage.png";
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const CompleteProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
+  const [profilePreview, setProfilePreview] = useState("");
   const [coverPhoto, setCoverPhoto] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [relationStatus, setRelationStatus] = useState("");
   const [profession, setProfession] = useState("");
 
-  const userDetail = useSelector((state) => state.userDetail);
+  const userDetail = JSON.parse(localStorage.getItem("userData"));
 
   // console.log(userDetail);
 
   const handleSubmit = async (e) => {
+    const history = useHistory();
+
+    e.preventDefault();
+    if (
+      userDetail._id === null ||
+      profilePhoto === "" ||
+      bio === "" ||
+      location === "" ||
+      relationStatus === "" ||
+      profession === ""
+    ) {
+      console.log("fill all the blanks");
+      return;
+    }
     try {
-      let uri = "updateprofile";
-      e.preventDefault();
+      let uri = "/updateprofile";
 
-      let option = {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: userDetail.userData._id,
-          bio,
-          location,
-          coverPhoto,
-          profilePhoto,
-          relationStatus,
-          profession,
-        }),
-      };
+      let formData = new FormData();
 
-      // console.log(option.body);
+      formData.append("file", profilePhoto);
 
-      const response = await fetch(uri, option);
+      let details = JSON.stringify({
+        id: userDetail._id,
+        location: location,
+        bio: bio,
+        relationStatus: relationStatus,
+        profession: profession,
+      });
 
-      const data = await response.json();
+      formData.append("details", details);
 
-      console.log(data);
+      axios
+        .post(uri, formData, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.status === 200) {
+            history.push("/login");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-      setProfilePhoto("");
-      setCoverPhoto("");
+      setProfilePhoto(null);
       setBio("");
       setLocation("");
       setRelationStatus("");
@@ -64,7 +84,7 @@ const CompleteProfile = () => {
             <label className="d-flex flex-column align-items-center ">
               {profilePhoto !== "" ? (
                 <img
-                  src={profilePhoto}
+                  src={profilePreview}
                   alt="Add Profile Pic"
                   className="profile-logo"
                   style={{ height: "8rem", width: "8rem" }}
@@ -88,51 +108,9 @@ const CompleteProfile = () => {
                     let reader = new FileReader();
 
                     let file = e.target.files[0];
-
+                    setProfilePhoto(file);
                     reader.onloadend = () => {
-                      setProfilePhoto(reader.result);
-                    };
-                    reader.readAsDataURL(file);
-                  } catch (err) {
-                    console.log(err);
-                  }
-                }}
-              />
-            </label>
-            <label className="d-flex flex-column align-items-center">
-              {coverPhoto !== "" ? (
-                <img
-                  src={coverPhoto}
-                  alt=""
-                  className=""
-                  style={{ height: "8rem", width: "8rem" }}
-                />
-              ) : (
-                <img
-                  src={addimage}
-                  alt=""
-                  className="profile-logo"
-                  style={{
-                    height: "200px",
-                    width: "250px",
-                    objectFit: "contain",
-                  }}
-                />
-              )}
-
-              <span className="btn btn-primary">Add Cover Photo</span>
-              <input
-                type="file"
-                style={{ visibility: "hidden", width: 0 }}
-                onChange={async (e) => {
-                  try {
-                    e.preventDefault();
-                    let reader = new FileReader();
-
-                    let file = e.target.files[0];
-
-                    reader.onloadend = () => {
-                      setCoverPhoto(reader.result);
+                      setProfilePreview(reader.result);
                     };
                     reader.readAsDataURL(file);
                   } catch (err) {

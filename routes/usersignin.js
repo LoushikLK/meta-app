@@ -14,10 +14,10 @@ const saltRound = 10;
 router.post("/login", async (req, res) => {
     try {
 
-        console.log(req.body);
+        // console.log(req.body);
 
         if (req.body.email && req.body.password != undefined || null) {
-            console.log(req.body.email);
+            // console.log(req.body.email);
             let userDetail = await profileDb.findOne({ email: req.body.email })
 
             if (!userDetail) {
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
             }
             else if (userDetail) {
 
-                console.log(userDetail._id);
+                // console.log(userDetail._id);
 
                 const matched = await bcrypt.compare(req.body.password, userDetail.password)
 
@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
 
                     console.log(`${req.body.email} is authorised`);
 
-
+                    // console.log(userDetail);
                     let mainuser = {
                         _id: userDetail._id,
                         profilePicture: userDetail.profilePicture,
@@ -52,18 +52,20 @@ router.post("/login", async (req, res) => {
                         following: userDetail.following.length,
                         post: userDetail.post.length,
                         bio: userDetail.bio,
+                        new: userDetail.new,
 
-                        about: [
-                            {
-                                location: userDetail.about[0].location,
-                                profession: userDetail.about[0].profession,
-                                relationshipStatus: userDetail.about[0].relationshipStatus,
-                                gender: userDetail.about[0].gender
-                            }
-                        ]
+                        about:
+                        {
+                            location: userDetail.about.location,
+                            profession: userDetail.about.profession,
+                            relationshipStatus: userDetail.about.relationshipStatus,
+                            gender: userDetail.about.gender
+                        }
+
                     }
 
                     res.status(200).cookie("authtoken", jwttoken).json({ message: mainuser })
+
 
 
                 }
@@ -78,6 +80,7 @@ router.post("/login", async (req, res) => {
     }
     catch (err) {
         console.log(err);
+        console.log("data not sent");
     }
 })
 
@@ -221,7 +224,9 @@ router.post("/emailverification", async (req, res) => {
                         email: userdata.email,
                         password: result,
                         profileName: `${userdata.firstname} ${userdata.lastname}`,
-                        about: [{ gender: userdata.gender }]
+                        about: [{ gender: userdata.gender }],
+                        new: true,
+                        profileCreated: new Date(Date.now()).toLocaleDateString()
                     })
 
                     userProfileData.save().then(() => {

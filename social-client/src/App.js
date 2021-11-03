@@ -70,7 +70,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
         <Navbar />
         <Switch>
           <Route path="/login" component={Login} exact />

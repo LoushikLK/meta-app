@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 const OtpVerifyPage = () => {
   const [otp, setOtp] = useState("");
-
-  const history = useHistory();
+  const [completeProfile, setCompleteProfile] = useState(false);
 
   async function handleSubmit(e) {
     try {
@@ -22,51 +20,56 @@ const OtpVerifyPage = () => {
         }),
       };
 
-      console.log(option.body);
+      // console.log(option.body);
 
       const response = await fetch(url, option);
 
       const data = await response.json();
 
-      console.log(data);
+      // console.log(data);
+
       if (response.status === 200) {
-        history.push("/login");
+        setCompleteProfile(true);
       }
     } catch (error) {}
   }
   return (
     <>
-      <div className="d-flex flex-column align-items-center">
-        <header className="btn btn-primary px-4 fs-3">
-          Thank You For Sign Up
-        </header>
-        <p>
-          Please verify your email by submiting the otp sent to the email
-          account.
-        </p>
-        <form>
-          <div class="mb-3">
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Enter OTP..."
-              onChange={(e) => {
-                setOtp(e.target.value);
-              }}
-              value={otp}
-              required
-            />
-          </div>
+      {completeProfile ? (
+        <completeProfile />
+      ) : (
+        <div className="d-flex flex-column align-items-center">
+          <header className="btn btn-primary px-4 fs-3">
+            Thank You For Sign Up
+          </header>
+          <p>
+            Please verify your email by submiting the otp sent to the email
+            account.
+          </p>
+          <form>
+            <div class="mb-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter OTP..."
+                onChange={(e) => {
+                  setOtp(e.target.value);
+                }}
+                value={otp}
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-        </form>
-      </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 };

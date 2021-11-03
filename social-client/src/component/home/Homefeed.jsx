@@ -7,15 +7,28 @@ const Homefeed = () => {
   const [api, setApi] = useState([]);
   document.title = "Home";
 
+  const userDetails = JSON.parse(localStorage.getItem("userData"));
+
+  // console.log(userDetails);
+
   useEffect(() => {
     const getapidata = async () => {
-      const response = await fetch("/test");
+      let url = "/homefeed";
+
+      let option = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: userDetails._id,
+        },
+      };
+      const response = await fetch(url, option);
 
       const data = await response.json();
 
-      setApi(data.message);
+      setApi([]);
 
-      // console.log(data);
+      console.log(data);
     };
     getapidata();
   }, []);
@@ -30,11 +43,7 @@ const Homefeed = () => {
               <h3 className="text-secondary">People You May Know</h3>
               <hr />
               <div className="home-sugestion-people">
-                {api.map((value, index) => {
-                  return (
-                    <Sugesstionfeed sugessteduser={value._id} key={value._id} />
-                  );
-                })}
+                <Sugesstionfeed />
               </div>
               <hr />
               <small>&copy; Meta inc. </small>

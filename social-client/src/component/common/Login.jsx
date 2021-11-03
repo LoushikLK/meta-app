@@ -52,13 +52,13 @@ const Login = () => {
       setPopup(true);
     }
 
-    setEmail("");
-    setPassword("");
     if (response.status === 200) {
       dispatch(actionCreators.userdetail({ isLogin: true }));
       localStorage.setItem("userData", JSON.stringify(data.message));
       console.log(data.message);
     }
+    setEmail("");
+    setPassword("");
   };
   useEffect(() => {
     if (userDetail.isLogin === true) {

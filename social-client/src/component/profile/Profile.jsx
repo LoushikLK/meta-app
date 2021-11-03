@@ -4,8 +4,6 @@ import "./profile.css";
 // import profileimg from "../../image/profiledemo/profile.jpg";
 import Timeline from "./Timeline";
 import Tag from "./Tag";
-import PrivatePost from "./PrivatePost";
-// import Post from "../post/Post";
 import Card from "../common/Card";
 const Profile = () => {
   document.title = "Profile";
@@ -131,16 +129,6 @@ const Profile = () => {
                     Tags
                   </button>
                 </li>
-                <li className="nav-item">
-                  <button
-                    className="nav-link fw-bold text-secondary btn px-2"
-                    onClick={() => {
-                      setShowComponent(<PrivatePost />);
-                    }}
-                  >
-                    Private Post
-                  </button>
-                </li>
               </ul>
               <form className="d-flex">
                 <button className="btn btn-primary px-3">
@@ -157,15 +145,15 @@ const Profile = () => {
                 <h2 className="profile-about-head text-center">About</h2>
                 <span className="profile-livesIn">
                   Lives In
-                  {userDetails.about[0].location}
+                  {userDetails.about.location}
                 </span>
                 <span className="profile-job">
                   Profession
-                  {userDetails.about[0].profession}
+                  {userDetails.about.profession}
                 </span>
                 <span className="profile-relationship">
                   Relationship Status
-                  {userDetails.about[0].relationshipStatus}
+                  {userDetails.about.relationshipStatus}
                 </span>
               </div>
             </div>

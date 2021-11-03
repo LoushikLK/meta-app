@@ -26,7 +26,8 @@ const profileSchema = new mongoose.Schema({
         type: String
     },
     profileCreated: {
-        type: String
+        type: String,
+
     },
     notification: [
         { type: String }
@@ -53,10 +54,10 @@ const profileSchema = new mongoose.Schema({
 
     ],
     followers: [
-        { name: String },
+        { id: String },
     ],
     following: [
-        { name: String }
+        { id: String }
 
     ],
     privatePost: [
@@ -78,20 +79,22 @@ const profileSchema = new mongoose.Schema({
         }
 
     ],
-    about: [
-        {
-            location: {
-                type: String
-            },
-            profession: {
-                type: String
-            },
-            relationshipStatus: {
-                type: String
-            },
-            gender: String
-        }
-    ]
+    about:
+    {
+        location: {
+            type: String,
+
+        },
+        profession: {
+            type: String,
+
+        },
+        relationshipStatus: {
+            type: String
+        },
+        gender: String
+    }
+
 
 })
 

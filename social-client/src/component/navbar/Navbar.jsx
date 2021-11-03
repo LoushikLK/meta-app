@@ -89,6 +89,7 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
+
       {showNotification ? <Notification /> : ""}
     </>
   );

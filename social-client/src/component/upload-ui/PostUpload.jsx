@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "./upload-ui.css";
 import AddImage from "../../image/upload-ui/photos.png";
+import axios from "axios";
 
 const PostUpload = () => {
-  const [fileDetail, setFileDetail] = useState({
-    file: "",
-    imagepreviewUrl: "",
-  });
+  const [previewImg, setPreviewImg] = useState("");
+  const [selectFile, setSelectFile] = useState("");
 
   const [location, setLocation] = useState("");
 
@@ -26,8 +25,10 @@ const PostUpload = () => {
 
       let file = e.target.files[0];
 
+      setSelectFile(file);
+
       reader.onloadend = () => {
-        setFileDetail({ file: file, imagepreviewUrl: reader.result });
+        setPreviewImg(reader.result);
       };
 
       reader.readAsDataURL(file);
@@ -36,55 +37,57 @@ const PostUpload = () => {
     }
   }
   async function handleSubmit(e) {
-    if (fileDetail.imagepreviewUrl === "") {
-      console.log("Choose An Image To Upload");
-      return;
-    }
     try {
+      if (previewImg === "" || selectFile === null) {
+        console.log("Choose An Image To Upload");
+        return;
+      }
+
       e.preventDefault();
       // TODO: do something with -> this.state.file
-      console.log("handle uploading-", fileDetail);
 
       let url = "/postimage";
 
-      const option = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: userDetail._id,
-          location: location,
-          caption: caption,
-          image: fileDetail.imagepreviewUrl,
-        }),
-      };
+      const formdata = new FormData();
 
-      // console.log(option.body);
+      formdata.append("file", selectFile);
 
-      const response = await fetch(url, option);
+      let imgdata = JSON.stringify({
+        id: userDetail._id,
+        location: location,
+        caption: caption,
+      });
 
-      const data = await response.json();
+      formdata.append("details", imgdata);
 
-      console.log(data);
+      axios
+        .post(url, formdata, {
+          headers: { Content_type: "multipart/form-data" },
+        })
+        .then((res) => {
+          console.log(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       setCaption("");
       setLocation("");
-      setFileDetail({ file: "", imagepreviewUrl: "" });
-    } catch (err) {
-      console.log(err);
+      setSelectFile(null);
+      setPreviewImg("");
+    } catch (error) {
+      console.log(error);
     }
   }
+
+  console.log(selectFile);
 
   return (
     <>
       <div className="upload-post-main">
-        {fileDetail.imagepreviewUrl ? (
+        {previewImg ? (
           <div className="img-preview ">
-            <img
-              src={fileDetail.imagepreviewUrl}
-              alt=""
-              className="img-fluid"
-            />
+            <img src={previewImg} alt="" className="img-fluid" />
           </div>
         ) : (
           ""
