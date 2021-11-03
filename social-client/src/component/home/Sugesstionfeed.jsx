@@ -60,36 +60,38 @@ const Sugesstionfeed = () => {
   return (
     <>
       {profile.map((value, index) => {
-        return (
-          <div
-            className="d-flex align-items-center justify-content-between"
-            key={value._id}
-          >
-            <div className="my-2 d-flex align-items-center flex-row">
-              <img
-                src={value.profilePicture}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2">{value.profileName}</span>
-            </div>
-            <button
-              className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
-              style={{ height: "32px" }}
-              onClick={() => {
-                handleFollow(value._id);
-                {
-                  buttonType === "follow"
-                    ? setButtonType("unfollow")
-                    : setButtonType("follow");
-                }
-              }}
+        if (value._id !== userDetails._id) {
+          return (
+            <div
+              className="d-flex align-items-center justify-content-between"
+              key={value._id}
             >
-              {buttonType}
-            </button>
-          </div>
-        );
+              <div className="my-2 d-flex align-items-center flex-row">
+                <img
+                  src={value.profilePicture}
+                  alt=""
+                  className="profile-logo image-fluid p-1"
+                  style={{ height: "40px", width: "40px" }}
+                />
+                <span className="fw-bold px-2">{value.profileName}</span>
+              </div>
+              <button
+                className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
+                style={{ height: "32px" }}
+                onClick={() => {
+                  handleFollow(value._id);
+                  {
+                    buttonType === "follow"
+                      ? setButtonType("unfollow")
+                      : setButtonType("follow");
+                  }
+                }}
+              >
+                {buttonType}
+              </button>
+            </div>
+          );
+        }
       })}
     </>
   );

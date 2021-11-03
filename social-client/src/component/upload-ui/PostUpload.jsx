@@ -66,6 +66,7 @@ const PostUpload = () => {
         })
         .then((res) => {
           console.log(res.data.message);
+          window.alert(res.data.message);
         })
         .catch((err) => {
           console.log(err);
@@ -76,11 +77,11 @@ const PostUpload = () => {
       setSelectFile(null);
       setPreviewImg("");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
-  console.log(selectFile);
+  // console.log(selectFile);
 
   return (
     <>

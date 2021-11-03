@@ -35,15 +35,14 @@ router.get("/", auth, async (req, res) => {
 
 router.get("/sugesteduser", async (req, res) => {
 
-    console.log("hi");
     try {
         const user = await profiledata.findById(req.header("userid"));
 
-        // console.log(user.following);
+        console.log(user.following.length);
 
         if (user.following.length > 0) {
 
-            // console.log(user.following + " followings");
+            console.log(user.following + " followings");
 
             let i;
 
@@ -85,20 +84,21 @@ router.get("/sugesteduser", async (req, res) => {
                 }
 
             }
+            return
         }
-        else {
 
-            let user = await profiledata.find()
 
-            let i;
+        // console.log("hiii");
 
-            for (i = 0; i > user.length - 6; i--) {
+        let alluser = await profiledata.find()
 
-                let suggestuser = []
-                suggestuser.push(user[i])
-                res.status(200).json({ message: suggestuser })
-            }
-        }
+        // let newsuggestion = alluser.slice(0, 6)
+        let newsuggestion = alluser.reverse().slice(0, 6)
+
+        // console.log(newsuggestion);
+
+        res.status(200).json({ message: newsuggestion })
+
 
     } catch (error) {
         console.log(error);
