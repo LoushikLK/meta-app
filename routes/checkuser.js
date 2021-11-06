@@ -7,24 +7,7 @@ const jwt = require("jsonwebtoken")
 router.get("/", auth, async (req, res) => {
     try {
 
-        // console.log("main routes");
-
-
-        let token = req.cookies.authtoken
-        let verified = jwt.verify(token, process.env.LOGIN_JWT_SECRET)
-
-        console.log(verified._id);
-
-        const userprofiledata = await profileDb.findOne({ _id: verified._id })
-
-        // console.log(userprofiledata);
-
-        res.status(200).json({ message: userprofiledata })
-
-
-
-
-
+        res.status(200).json({ message: "User is authorised" })
     }
     catch (err) {
         console.log(err);

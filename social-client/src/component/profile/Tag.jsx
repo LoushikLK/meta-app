@@ -4,8 +4,7 @@ import Card from "../common/Card";
 const Tag = () => {
   return (
     <>
-      <Card />
-      <Card />
+      <h1>This in not available yet.</h1>
     </>
   );
 };

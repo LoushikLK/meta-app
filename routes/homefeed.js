@@ -13,15 +13,78 @@ router.get("/", auth, async (req, res) => {
         const user = await profiledata.findById(req.header("userid"));
         // console.log(user.followers);
 
-        if (user.followers.length > 0) {
-            res.status(200).json({
-                message: user.following
-            })
-        } else {
+        if (user.following.length > 0) {
 
-            res.status(200).json({ message: "Try adding some people to see their post." })
+            // console.log(user.following[0].id);
+
+            //allfriends are following by user
+
+            let allfriendsarray = []
+
+            user.following.map((value) => {
+                return allfriendsarray.push(value.id)
+            })
+
+            // $in for find multiple id result in an array///////////////////////
+
+            let friendsData = await profiledata.find({ "_id": { "$in": allfriendsarray } });
+
+            // console.log(allfriendsarray);
+
+            let allpost = []
+
+
+
+            const gethomefeedpost = async (array) => {
+
+
+                return array.map((value) => {
+
+                    if (value.post.length > 0) {
+
+
+                        // console.log(value);
+
+
+
+
+                        return value.post.map((items) => {
+
+                            return allpost.push({ mainid: value._id, postid: items._id })
+
+                        })
+
+                        // for sending all data of post 
+
+                        // return value.post.map((items) => {
+
+                        //     return allpost.push({ mainid: value._id, postid: items._id, posturl: items.postUri, postdate: items.postDate, profilePhoto: value.profilePicture, name: value.profileName })
+                        // })
+                    }
+
+                    return
+
+                })
+
+
+            }
+            gethomefeedpost(friendsData)
+            // console.log(allpost.reverse());
+
+            if (allpost.length > 0) {
+                // console.log(allpost);
+                return res.status(200).json({ message: allpost.reverse() })
+
+            }
+
+            res.status(400).json({ message: "Try adding some people as friends to see their post." })
+
 
         }
+
+        return res.status(200).json({ message: "Try adding some people to see their post." })
+
+
 
     }
     catch (err) {
@@ -33,68 +96,93 @@ router.get("/", auth, async (req, res) => {
 
 })
 
-router.get("/sugesteduser", async (req, res) => {
+router.get("/sugesteduser", auth, async (req, res) => {
 
     try {
         const user = await profiledata.findById(req.header("userid"));
+        const alluser = await profiledata.find()
 
-        console.log(user.following.length);
+        // console.log(user.following.length);
 
-        if (user.following.length > 0) {
+        if (user.following.length > 5) {
 
-            console.log(user.following + " followings");
+            let friends = []
 
-            let i;
+            user.following.forEach((elem) => { return friends.push(elem.id) })
 
-            for (i = 0; i < user.following.length; i++) {
-
-                let frienduser = await profiledata.findById(user.following[i].id)
-
-                // console.log(frienduser);
-
-                let j;
-
-                for (j = 0; j < frienduser.following.length; j++) {
-
-                    // console.log(frienduser.following[j].id);
-
-                    if (user.following[i].id != frienduser.following[j].id) {
-                        console.log("new sugesstions");
-
-                        let newfriends = await profiledata.findById(frienduser.following[j].id)
-
-                        console.log("new friends" + j);
-
-                        // console.log(newfriends);
-
-                        let newsugestion = []
-
-                        newsugestion.push(newfriends)
-
-                        // console.log("new sugesstion length" + newsugestion.length);
+            // console.log(friends);
 
 
+            ///////////////////////data of friends user is following///////////
 
-                        return res.status(200).json({ message: newsugestion })
+            let friendsData = await profiledata.find({ "_id": { "$in": friends } });
 
+            // console.log(friendsData);
+
+            let suggestuser = async (array) => {
+                // console.log(array);
+
+                let newsuggestion = []
+
+                array.forEach((elem) => {
+
+
+                    // console.log(elem.following);
+
+
+                    if (elem.following.length > 0) {
+
+                        elem.following.forEach(async (item) => {
+                            // console.log(item);
+
+                            newsuggestion.push(item.id)
+
+
+                        })
                     }
 
-                    return res.json({ message: "no more suggestion" })
 
-                }
+                })
+                // console.log(newsuggestion);
 
+                let result = newsuggestion.filter(o1 => !friends.some(o2 => o1 === o2));
+
+                // console.log(result);
+
+                let newuserdata = await profiledata.find({ "_id": { "$in": result } });
+
+                // console.log(newuserdata + "newuser data");
+
+                let mysuggestion = newuserdata.slice(0, 6)
+
+                return res.status(200).json({ message: mysuggestion })
             }
-            return
+
+            return suggestuser(friendsData)
         }
 
 
         // console.log("hiii");
 
-        let alluser = await profiledata.find()
 
-        // let newsuggestion = alluser.slice(0, 6)
+        let followingid = user.following.map((value) => { return value.id })
+
+        // console.log(followingid);
+
+        let myarray = []
+
+        alluser.map((value) => { return myarray.push(value._id) })
+
+        // console.log(myarray);
+
+        let result = myarray.filter(o1 => !followingid.some(o2 => o1 === o2));
+
+        // console.log(result);
+
         let newsuggestion = alluser.reverse().slice(0, 6)
 
+
+        // console.log(myarray);
         // console.log(newsuggestion);
 
         res.status(200).json({ message: newsuggestion })

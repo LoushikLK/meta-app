@@ -21,7 +21,7 @@ const Sugesstionfeed = () => {
 
         const data = await response.json();
 
-        // console.log(data);
+        console.log(data);
 
         setProfile(data.message);
       } catch (err) {
@@ -32,13 +32,12 @@ const Sugesstionfeed = () => {
   }, []);
 
   const handleFollow = async (id) => {
-    console.log("clicked");
     console.log(buttonType);
     console.log(id);
 
-    let url = `/followings/${buttonType}`;
+    let url = `/userintraction/${buttonType}`;
     let option = {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-type": "application/json",
       },
@@ -80,11 +79,7 @@ const Sugesstionfeed = () => {
                 style={{ height: "32px" }}
                 onClick={() => {
                   handleFollow(value._id);
-                  {
-                    buttonType === "follow"
-                      ? setButtonType("unfollow")
-                      : setButtonType("follow");
-                  }
+                  setButtonType("unfollow");
                 }}
               >
                 {buttonType}

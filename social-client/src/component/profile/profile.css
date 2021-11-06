@@ -74,3 +74,13 @@
   box-shadow: 0px 0px 12px #00000045;
   border-radius: 0.5rem;
 }
+
+@media (max-width: 800px) {
+  .profile-post-main {
+    width: 100%;
+  }
+
+  .profile-about {
+    display: none;
+  }
+}

@@ -31,10 +31,7 @@ router.post("/", auth, async (req, res) => {
                 res.status(200).json({ message: postdata })
 
             }
-            else {
-                console.log("no match");
-                return
-            }
+
 
         }
 

@@ -32,6 +32,9 @@ const profileSchema = new mongoose.Schema({
     notification: [
         { type: String }
     ],
+    tag: [
+        { mainid: String, postid: String }
+    ],
 
     post: [
 

@@ -9,7 +9,7 @@ const Homefeed = () => {
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
-  // console.log(userDetails);
+  console.log(userDetails._id);
 
   useEffect(() => {
     const getapidata = async () => {
@@ -26,12 +26,16 @@ const Homefeed = () => {
 
       const data = await response.json();
 
-      setApi([]);
+      if (response.status === 200) {
+        setApi(data.message);
+      }
 
-      console.log(data);
+      // console.log(data);
     };
     getapidata();
   }, []);
+
+  console.log(api);
 
   //new id concept use in home to show new post upto 2 days
   return (
@@ -52,13 +56,15 @@ const Homefeed = () => {
           </div>
           <div className="col-6 mx-3 home-timeline">
             <UploadToogleUi />
-            {api !== null && api !== undefined
+            {api !== null && api !== undefined && api !== String
               ? api.map((value, index) => {
-                  return value.post.map((data, index) => {
-                    return (
-                      <Post postid={data._id} mainid={value._id} key={index} />
-                    );
-                  });
+                  return (
+                    <Post
+                      postid={value.postid}
+                      mainid={value.mainid}
+                      key={index}
+                    />
+                  );
                 })
               : ""}
           </div>
@@ -68,20 +74,40 @@ const Homefeed = () => {
         </div>
       </div>
 
-      {/* <div className="container pt-5">
-        <div className="row">
-          <div className="col">
-            <Sugesstionfeed />
+      {/* for sending all data needed for a post as props
+
+      <div className="container pt-5">
+        <div className="row ">
+          <div className="col home-extras">
+            <section className="home-sugestion">
+              <h3 className="text-secondary">People You May Know</h3>
+              <hr />
+              <div className="home-sugestion-people">
+                <Sugesstionfeed />
+              </div>
+              <hr />
+              <small>&copy; Meta inc. </small>
+              <small> &reg;Loushik all right reserved.</small>
+            </section>
           </div>
-          <div className="col-6 mx-3">
+          <div className="col-6 mx-3 home-timeline">
             <UploadToogleUi />
-            <Post id={}/>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            {api !== null && api !== undefined
+              ? api.map((value, index) => {
+                  return (
+                    <Post
+                      postid={value.postid}
+                      mainid={value.mainid}
+                      postimg={value.posturl}
+                      profileimg={value.profilePhoto}
+                      profilename={value.name}
+                      key={index}
+                    />
+                  );
+                })
+              : ""}
           </div>
-          <div className="col">
+          <div className="col home-extras">
             <Chatfeed />
           </div>
         </div>

@@ -37,15 +37,13 @@ function App() {
 
     const getData = async () => {
 
-      const url = "/userdata";
+      const url = "/checkuser";
 
       const response = await fetch(url);
 
       const data = await response.json();
 
-      // console.log(data);
-
-
+      console.log(data);
 
       // console.log(response.status);
 
@@ -64,7 +62,7 @@ function App() {
     dispatch(actionCreators.userdetail({ isLogin: isLogin }));
 
 
-  }, [isLogin])
+  }, [isLogin, dispatch])
 
 
   return (
@@ -80,13 +78,6 @@ function App() {
           <ProtectedRoute path="/post" component={PostUpload} />
           <Route component={Errorpage} />
         </Switch>
-
-
-        <div className="bg-dark text-light">
-
-
-        </div>
-
       </BrowserRouter>
     </>
   );

@@ -233,7 +233,7 @@ router.post("/emailverification", async (req, res) => {
 
                 if (response) {
 
-                    let jwttoken = jwt.sign({ _id: response._id }, process.env.LOGIN_JWT_SECRET, { expiresIn: "1h" });
+                    let jwttoken = jwt.sign({ _id: response._id }, process.env.LOGIN_JWT_SECRET, { expiresIn: "2h" });
 
                     res.status(200).cookie("authtoken", jwttoken).clearCookie("userdata").json({ message: `Welcome ${userdata.firstname}` })
 

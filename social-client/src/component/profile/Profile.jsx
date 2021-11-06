@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./profile.css";
+import { useHistory } from "react-router-dom";
 // import coverimg from "../../image/profiledemo/profileback.jpg";
 // import profileimg from "../../image/profiledemo/profile.jpg";
 import Timeline from "./Timeline";
@@ -9,38 +10,9 @@ const Profile = () => {
   document.title = "Profile";
   const [showComponent, setShowComponent] = useState(<Timeline />);
 
-  const [profiledata, setProfiledata] = useState("");
-
-  const getprofiledata = async () => {
-    const url = "/profiledata";
-    const response = await fetch(url);
-
-    const data = await response.json();
-
-    // console.log(data);
-
-    let userdata = "bot 5";
-    let i;
-
-    for (i = 0; i < data.length; i++) {
-      if (userdata === data[i].profileName) {
-        // console.log(data[i]);
-
-        setProfiledata(data[i]);
-      }
-    }
-
-    // console.log(profiledata);
-  };
-
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
-  // console.log(userDetails);
-
-  // useEffect(() => {
-  //   getprofiledata();
-  // }, []);
-  // console.log(profiledata.post);
+  const history = useHistory();
 
   return (
     <>
@@ -95,7 +67,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="navbar   px-5 profile-nav">
+          <div className="navbar profile-nav">
             <div className="container-fluid">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row justify-content-evenly w-50 ">
                 <li className="nav-item">
@@ -130,17 +102,22 @@ const Profile = () => {
                   </button>
                 </li>
               </ul>
-              <form className="d-flex">
-                <button className="btn btn-primary px-3">
+
+              <button className="btn btn-primary px-3">
+                <span
+                  onClick={() => {
+                    history.push("/post");
+                  }}
+                >
                   What's On Your Mind?
-                </button>
-              </form>
+                </span>
+              </button>
             </div>
           </div>
 
           <div className="post-container  my-2">
-            <div className="row">
-              <div className="col-8">{showComponent}</div>
+            <div className="row w-100">
+              <div className="col-8 profile-post-main">{showComponent}</div>
               <div className="col-4 profile-about p-4">
                 <h2 className="profile-about-head text-center">About</h2>
                 <span className="profile-livesIn">

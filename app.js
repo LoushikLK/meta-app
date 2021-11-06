@@ -29,25 +29,25 @@ require("./db/ConnectDB")
 
 
 //routes for endpoints
-const profileMain = require("./routes/profileMain")
+const profilefeed = require("./routes/profilefeed")
 const usersignin = require("./routes/usersignin")
-const userdata = require("./routes/userdata")
+const checkuser = require("./routes/checkuser")
 const postdetail = require("./routes/postDetail")
 const profileDetails = require("./routes/profileDetails")
 const postImage = require("./routes/postImageToDb")
 const updateProfile = require("./routes/updateProfile")
 const homefeed = require("./routes/homefeed")
-const followUnfollow = require("./routes/followUnfollow")
+const userUserIntraction = require("./routes/userUserIntraction")
 
-app.use("/profiledata", profileMain)
+app.use("/profilefeed", profilefeed)
 app.use("/usersignin", usersignin)
-app.use("/userdata", userdata)
+app.use("/checkuser", checkuser)
 app.use("/getpostdetails", postdetail)
 app.use("/getuser", profileDetails)
 app.use("/postimage", postImage)
 app.use("/updateprofile", updateProfile)
 app.use("/homefeed", homefeed)
-app.use("/followings", followUnfollow)
+app.use("/userintraction", userUserIntraction)
 
 
 

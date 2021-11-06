@@ -21,9 +21,9 @@ const auth = async (req, res, next) => {
 
             // res.json({ message: "no auth token" })
 
-            // res.status(400).json({ message: "Please Login Again" })
+            res.status(400).json({ message: "Please Login Again" })
 
-            res.redirect("/sighup")
+            // res.redirect("/sighup")
             // res.status(200).redirect("/login")
 
             return

@@ -1,34 +1,50 @@
-import React from "react";
-// import "./card.css";
+import React, { useState, useEffect } from "react";
+import "./common.css";
 const Card = () => {
+  const userDetails = JSON.parse(localStorage.getItem("userData"));
+
+  const [carddata, setCarddata] = useState([]);
+
+  useEffect(() => {
+    const getprofiledata = async () => {
+      try {
+        const url = "/profilefeed/card";
+
+        let option = {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            userid: userDetails._id,
+          },
+        };
+        const response = await fetch(url, option);
+
+        const data = await response.json();
+
+        // console.log(data);
+
+        setCarddata(data.message);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getprofiledata();
+  }, []);
+
+  console.log(carddata);
   return (
     <>
       <div className="container">
         <div className="gallery m-2">
-          <a href="https://images.pexels.com/photos/1447885/pexels-photo-1447885.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-            <img
-              src="https://images.pexels.com/photos/1447885/pexels-photo-1447885.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-              alt=""
-            />
-          </a>
-          <a href="https://images.pexels.com/photos/3058391/pexels-photo-3058391.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-            <img
-              src="https://images.pexels.com/photos/3058391/pexels-photo-3058391.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-              alt=""
-            />
-          </a>
-          <a href="https://images.pexels.com/photos/1457611/pexels-photo-1457611.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-            <img
-              src="https://images.pexels.com/photos/1457611/pexels-photo-1457611.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-              alt=""
-            />
-          </a>
-          <a href="https://images.pexels.com/photos/3366753/pexels-photo-3366753.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-            <img
-              src="https://images.pexels.com/photos/3366753/pexels-photo-3366753.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-              alt=""
-            />
-          </a>
+          {carddata.length > 0
+            ? carddata.map((value, index) => {
+                return (
+                  <a href={value} key={index}>
+                    <img src={value} alt="" />
+                  </a>
+                );
+              })
+            : "Oops no post .Post something."}
         </div>
       </div>
     </>
