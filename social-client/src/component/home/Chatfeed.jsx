@@ -46,7 +46,7 @@ const Chatfeed = () => {
                 <img
                   src={profileicon}
                   alt=""
-                  className="profile-logo image-fluid p-1"
+                  className="profile-logo image-fluid "
                   style={{ height: "40px", width: "40px" }}
                 />
                 <span className="fw-bold px-2">John cena</span>

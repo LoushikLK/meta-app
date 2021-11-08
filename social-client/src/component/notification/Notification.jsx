@@ -4,7 +4,7 @@ import profileicon from "../../image/profiledemo/profile.jpg";
 const Notification = () => {
   return (
     <>
-      <section className="d-flex flex-column notification-main bg-light p-4">
+      <section className="d-flex flex-column notification-main  p-4">
         <h4 className="text-secondary text-start ms-1">Notification</h4>
         <hr />
         <div className="all-notification">

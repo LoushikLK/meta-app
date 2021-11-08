@@ -7,8 +7,13 @@
 @media only screen and (max-width: 1050px) {
   .home-extras {
     display: none;
+    width: 0;
   }
   .home-timeline {
     width: 100%;
+  }
+  .home-timeline {
+    margin-left: 0 !important;
+    padding: 0;
   }
 }

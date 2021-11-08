@@ -25,55 +25,55 @@ const Login = () => {
       setFlashmsg("Please Enter Both  Required Field.");
       return;
     }
-    e.preventDefault();
-    // console.log(gender);
-    const url = "/usersignin/login";
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    };
 
-    // console.log(option.body);
+    try {
+      e.preventDefault();
+      // console.log(gender);
+      const url = "/usersignin/login";
+      const option = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      };
 
-    const response = await fetch(url, option);
+      // console.log(option.body);
 
-    const data = await response.json();
+      const response = await fetch(url, option);
 
-    console.log(response.status);
+      const data = await response.json();
 
-    if (data.message !== undefined && response.status !== 200) {
-      setFlashmsg(data.message);
-      setPopup(true);
+      console.log(response.status);
+
+      if (data.message !== undefined && response.status !== 200) {
+        setFlashmsg(data.message);
+        setPopup(true);
+      }
+
+      if (response.status === 200) {
+        localStorage.setItem("userData", JSON.stringify(data.message));
+        dispatch(actionCreators.userdetail({ isLogin: true }));
+
+        console.log(data.message);
+      }
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.log(error);
     }
-
-    if (response.status === 200) {
-      dispatch(actionCreators.userdetail({ isLogin: true }));
-      localStorage.setItem("userData", JSON.stringify(data.message));
-      console.log(data.message);
-    }
-    setEmail("");
-    setPassword("");
   };
-  useEffect(() => {
-    if (userDetail.isLogin === true) {
-      history.push("/");
-    }
-    return;
-  }, [userDetail.isLogin]);
+  if (userDetail.isLogin === true) {
+    history.push("/");
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setPopup(false);
     }, 5000);
-    // eslint-disable-next-line
-    return () => {
-      clearTimeout();
-    };
   }, [popup]);
   return (
     <>

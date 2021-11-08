@@ -6,3 +6,12 @@ export const userdetail = (value) => {
         })
     })
 }
+
+export const searchcomponent = (value) => {
+    return ((dispatch) => {
+        dispatch({
+            type: "SEARCH-COMPONENT",
+            payload: value
+        })
+    })
+}

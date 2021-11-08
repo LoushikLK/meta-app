@@ -36,6 +36,7 @@
   width: 20rem;
   height: 2.5rem;
   padding: 1rem;
+  color: var(--primary-color);
 }
 .login-form input:focus {
   outline: none;

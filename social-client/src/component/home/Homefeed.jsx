@@ -9,7 +9,7 @@ const Homefeed = () => {
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
-  console.log(userDetails._id);
+  // console.log(userDetails._id);
 
   useEffect(() => {
     const getapidata = async () => {
@@ -33,9 +33,9 @@ const Homefeed = () => {
       // console.log(data);
     };
     getapidata();
-  }, []);
+  }, [userDetails._id]);
 
-  console.log(api);
+  // console.log(api);
 
   //new id concept use in home to show new post upto 2 days
   return (

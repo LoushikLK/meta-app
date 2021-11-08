@@ -68,12 +68,12 @@ const profileSchema = new mongoose.Schema({
             postUri: String,
             postCaption: String,
             liked: [
-                { name: String }
+                { id: String }
             ],
             postDate: String,
             postComments: [
                 {
-                    name: String,
+                    id: String,
                     comments: String
                 }
             ]

@@ -1,15 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300&display=swap");
 
 *,
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto Slab", serif;
+  font-family: "Hind Madurai", sans-serif;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 :root {
-  --primary-color: #e9e9e96e;
+  --primary-color: #181818;
+  --secondary-color: #f2f2f2;
 }
+
 .App {
   text-align: center;
 }
@@ -20,8 +24,8 @@ body {
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-  padding: 3px;
-  background-color: #ffffff;
+  padding: 1px;
+  background-color: #0d6efd6e;
 }
 
 @media (prefers-reduced-motion: no-preference) {
