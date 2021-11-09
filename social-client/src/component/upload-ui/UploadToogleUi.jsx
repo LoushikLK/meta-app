@@ -42,12 +42,7 @@ const UploadToogleUi = () => {
                 Image
               </span>
               <span>
-                <button
-                  className="btn btn-primary px-4 rounded-pill"
-                  type="submit"
-                >
-                  Post
-                </button>
+                <span className="btn btn-primary px-4 rounded-pill">Post</span>
               </span>
             </div>
           </form>

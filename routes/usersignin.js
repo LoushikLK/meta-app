@@ -258,5 +258,7 @@ router.post("/emailverification", async (req, res) => {
         res.status(400).json({ message: "Something Went Wrong Please Enter Otp Again Or SignUp Again" })
     }
 })
-
+router.get("/logout", (req, res) => {
+    res.clearCookie("authtoken").json({ message: "you are logged out!" })
+})
 module.exports = router

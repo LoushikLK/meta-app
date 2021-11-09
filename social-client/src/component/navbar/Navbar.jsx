@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import Notification from "../notification/Notification";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators } from "../../store";
+import searchicon from "../../image/navlogo/searchbox.png";
 
 import "./navbar.css";
 
 export const Navbar = () => {
+  const history = useHistory();
   const isLogin = useSelector((state) => state.userDetail.isLogin);
 
-  const [showNotification, setShowNotofication] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   let userProfile = JSON.parse(localStorage.getItem("userData"));
 
@@ -22,7 +24,25 @@ export const Navbar = () => {
 
   console.log(showSearch);
 
+  useEffect(() => {
+    if (search === "" || search === null) {
+      return;
+    }
+  }, [search]);
+
   // console.log(userProfile);
+
+  const logout = async () => {
+    let url = "/usersignin/logout";
+
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+
+    dispatch(actionCreators.userdetail({ isLogin: false }));
+    localStorage.removeItem("userData");
+    history.push("/login");
+  };
 
   return (
     <>
@@ -58,6 +78,34 @@ export const Navbar = () => {
                 <span className="ms-3 text-primary">META</span>
               </span>
             </NavLink>
+
+            <div className="searchbox d-flex">
+              <form className="d-flex align-items-center">
+                <label htmlFor="nav-search" className="nav-search-label">
+                  <img
+                    src={searchicon}
+                    alt="Profile"
+                    className="profile-logo "
+                    style={{
+                      height: "13pt",
+                      width: "13pt",
+                      backgroundColor: "transparent",
+                    }}
+                  />
+
+                  <input
+                    className=" searcharea "
+                    type="search"
+                    id="nav-search"
+                    placeholder="Search friends,family,people across META"
+                    aria-label="Search"
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
+                </label>
+              </form>
+            </div>
 
             <div className="nav">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row">
@@ -129,8 +177,8 @@ export const Navbar = () => {
                     className="nav-link"
                     onClick={() => {
                       showNotification
-                        ? setShowNotofication(false)
-                        : setShowNotofication(true);
+                        ? setShowNotification(false)
+                        : setShowNotification(true);
                     }}
                     style={{ cursor: "pointer" }}
                   >
@@ -201,8 +249,68 @@ export const Navbar = () => {
                     )}
                   </NavLink>
                 </li>
+                <li className="nav-item mx-1">
+                  <div
+                    className="nav-link"
+                    onClick={logout}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <h6 className="text-danger m-0 fw-bold">Logout</h6>
+                    <svg
+                      version="1.0"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24pt"
+                      height="24pt"
+                      viewBox="0 0 512.000000 512.000000"
+                      preserveAspectRatio="xMidYMid meet"
+                    >
+                      <g
+                        transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                        fill="#545454"
+                        stroke="none"
+                      >
+                        <path
+                          d="M2495 4963 c-115 -29 -1800 -508 -1830 -521 -56 -24 -112 -77 -143
+                            -136 l-27 -51 0 -1695 c0 -1602 1 -1697 18 -1733 22 -46 78 -110 120 -136 18
+                            -10 442 -135 942 -278 825 -234 917 -258 985 -258 64 0 83 4 128 30 30 16 67
+                            46 83 66 64 80 59 -88 57 2324 -3 2122 -4 2201 -22 2237 -55 111 -195 179
+                            -311 151z"
+                        />
+                        <path
+                          d="M403 4745 c-102 -31 -176 -96 -222 -195 l-26 -55 0 -1935 0 -1935 26
+                          -56 c37 -79 90 -133 167 -171 l67 -33 395 -2 c217 -1 391 0 385 2 -5 3 -137
+                          41 -293 85 -155 44 -304 91 -332 105 -104 53 -197 181 -220 304 -14 74 -14
+                          3328 0 3402 23 121 111 243 217 301 27 15 179 64 338 108 160 45 292 84 294
+                          86 2 2 -166 4 -375 3 -284 0 -390 -4 -421 -14z"
+                        />
+                        <path
+                          d="M2983 4715 c4 -26 7 -442 7 -924 0 -817 1 -874 16 -851 36 53 91 103
+                          139 126 42 20 65 24 153 24 l103 0 -3 708 -3 707 -26 55 c-57 122 -166 192
+                          -308 198 l-84 4 6 -47z"
+                        />
+                        <path
+                          d="M4190 3279 c-14 -6 -36 -20 -48 -32 -44 -41 -52 -69 -52 -187 l0
+                          -110 -423 0 c-591 0 -552 27 -552 -385 0 -254 1 -272 21 -305 11 -19 35 -45
+                          54 -57 33 -23 33 -23 466 -23 l434 0 0 -102 c0 -57 5 -120 10 -140 13 -45 68
+                          -95 114 -103 75 -15 92 -2 423 329 265 265 313 317 324 354 25 86 19 95 -314
+                          430 -343 344 -372 365 -457 331z"
+                        />
+                        <path
+                          d="M2980 1284 l0 -927 78 5 c141 8 260 86 315 206 22 47 22 52 25 755
+                          l3 707 -103 0 c-87 0 -111 4 -153 24 -54 25 -118 84 -141 129 -8 15 -17 27
+                          -19 27 -3 0 -5 -417 -5 -926z"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </li>
               </ul>
-              <div className="searchbox d-flex">
+              {/* <div className="searchbox d-flex">
                 <form className="d-flex align-items-center">
                   <input
                     className="form-control ms-5 searcharea "
@@ -220,13 +328,8 @@ export const Navbar = () => {
                     }}
                   />
 
-                  {/* <img
-                  src={searchlogo}
-                  alt="Search"
-                  className="img-fluid navlogo "
-                /> */}
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
         </nav>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Post from "../post/Post";
+import Loading from "../Loading";
+// import Post from "../post/Post";
 import UploadToogleUi from "../upload-ui/UploadToogleUi";
 import Chatfeed from "./Chatfeed";
 import Sugesstionfeed from "./Sugesstionfeed";
@@ -38,6 +39,8 @@ const Homefeed = () => {
   // console.log(api);
 
   //new id concept use in home to show new post upto 2 days
+  const Post = React.lazy(() => import("../post/Post"));
+
   return (
     <>
       <div className="container pt-5">
@@ -59,11 +62,13 @@ const Homefeed = () => {
             {api !== null && api !== undefined && api !== String
               ? api.map((value, index) => {
                   return (
-                    <Post
-                      postid={value.postid}
-                      mainid={value.mainid}
-                      key={index}
-                    />
+                    <React.Suspense fallback={<Loading />}>
+                      <Post
+                        postid={value.postid}
+                        mainid={value.mainid}
+                        key={index}
+                      />
+                    </React.Suspense>
                   );
                 })
               : ""}
