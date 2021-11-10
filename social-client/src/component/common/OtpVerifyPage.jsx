@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import CompleteProfile from "./CompleteProfile";
+import { useHistory } from "react-router";
+
 const OtpVerifyPage = () => {
   const [otp, setOtp] = useState("");
-  const [completeProfile, setCompleteProfile] = useState(false);
+
+  const history = useHistory();
 
   async function handleSubmit(e) {
     try {
@@ -30,48 +32,44 @@ const OtpVerifyPage = () => {
       // console.log(data);
 
       if (response.status === 200) {
-        setCompleteProfile(true);
         console.log("response 200");
+        history.push("/completeprofile");
       }
     } catch (error) {}
   }
   return (
     <>
-      {completeProfile ? (
-        <CompleteProfile />
-      ) : (
-        <div className="d-flex flex-column align-items-center mt-3">
-          <header className="btn btn-primary px-4 fs-3">
-            Thank You For Sign Up
-          </header>
-          <p>
-            Please verify your email by submiting the otp sent to the email
-            account.
-          </p>
-          <form>
-            <div className="mb-3">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter OTP..."
-                onChange={(e) => {
-                  setOtp(e.target.value);
-                }}
-                value={otp}
-                required
-              />
-            </div>
+      <div className="d-flex flex-column align-items-center mt-3">
+        <header className="btn btn-primary px-4 fs-3">
+          Thank You For Sign Up
+        </header>
+        <p>
+          Please verify your email by submiting the otp sent to the email
+          account.
+        </p>
+        <form>
+          <div className="mb-3">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter OTP..."
+              onChange={(e) => {
+                setOtp(e.target.value);
+              }}
+              value={otp}
+              required
+            />
+          </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      )}
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 };

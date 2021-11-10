@@ -7,6 +7,7 @@
   width: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
+  background-color: var(--secondary-color);
 }
 
 .profile-img {
@@ -14,13 +15,13 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   border-radius: 0.5rem;
 }
 .dp-bio {
   position: relative;
   z-index: 9999999;
   top: 27rem;
+  background-color: transparent;
 }
 
 .profile-icon {

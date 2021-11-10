@@ -16,6 +16,8 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import Login from './component/common/Login'
 import Signup from './component/common/Signup'
 import PostUpload from './component/upload-ui/PostUpload';
+import CompleteProfile from './component/common/CompleteProfile';
+import OtpVerifyPage from './component/common/OtpVerifyPage';
 
 
 
@@ -72,6 +74,8 @@ function App() {
         <Switch>
           <Route path="/login" component={Login} exact />
           <Route path="/signup" component={Signup} exact />
+          <Route path="/verifyotp" component={OtpVerifyPage} exact />
+          <Route path="/completeprofile" component={CompleteProfile} exact />
           <ProtectedRoute exact path="/" component={Homefeed} />
           <ProtectedRoute path="/profile" component={Profile} />
           <ProtectedRoute path="/messages" component={Message} />

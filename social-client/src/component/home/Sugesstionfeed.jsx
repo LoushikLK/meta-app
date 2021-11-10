@@ -22,7 +22,9 @@ const Sugesstionfeed = () => {
         const data = await response.json();
 
         // console.log(data);
-        setProfile(data.message);
+        if (response.status === 200) {
+          setProfile(data.message);
+        }
       } catch (err) {
         console.log(err);
       }

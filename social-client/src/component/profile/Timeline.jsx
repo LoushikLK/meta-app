@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
+import Loading from "../common/Loading";
 import Post from "../post/Post";
 
 const Timeline = () => {
   const [timelinedata, setTimelinedata] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
     const getprofiledata = async () => {
       try {
+        setLoading(true);
         const url = "/profilefeed/timeline";
 
         let option = {
@@ -23,8 +26,10 @@ const Timeline = () => {
         const data = await response.json();
 
         // console.log(data);
-
-        setTimelinedata(data.message);
+        if (response.status === 200) {
+          setTimelinedata(data.message);
+        }
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -35,6 +40,7 @@ const Timeline = () => {
   // console.log(timelinedata);
   return (
     <>
+      {loading ? <Loading /> : null}
       {timelinedata.length > 0
         ? timelinedata.map((value, index) => {
             return (

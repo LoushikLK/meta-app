@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Loading from "../Loading";
-// import Post from "../post/Post";
+import Loading from "../common/Loading";
+import Post from "../post/Post";
 import UploadToogleUi from "../upload-ui/UploadToogleUi";
 import Chatfeed from "./Chatfeed";
 import Sugesstionfeed from "./Sugesstionfeed";
 const Homefeed = () => {
-  const [api, setApi] = useState([]);
   document.title = "Home";
+  const [api, setApi] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
@@ -14,32 +16,37 @@ const Homefeed = () => {
 
   useEffect(() => {
     const getapidata = async () => {
-      let url = "/homefeed";
+      try {
+        setLoading(true);
+        let url = "/homefeed";
 
-      let option = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          userid: userDetails._id,
-        },
-      };
-      const response = await fetch(url, option);
+        let option = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            userid: userDetails._id,
+          },
+        };
+        const response = await fetch(url, option);
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (response.status === 200) {
-        setApi(data.message);
+        if (response.status === 200) {
+          setApi(data.message);
+          setLoading(false);
+        }
+        // console.log(data);
+      } catch (error) {
+        console.log(error);
       }
-
-      // console.log(data);
     };
+
     getapidata();
   }, [userDetails._id]);
 
   // console.log(api);
 
   //new id concept use in home to show new post upto 2 days
-  const Post = React.lazy(() => import("../post/Post"));
 
   return (
     <>
@@ -59,16 +66,15 @@ const Homefeed = () => {
           </div>
           <div className="col-6 mx-3 home-timeline">
             <UploadToogleUi />
+            {loading ? <Loading /> : null}
             {api !== null && api !== undefined && api !== String
               ? api.map((value, index) => {
                   return (
-                    <React.Suspense fallback={<Loading />}>
-                      <Post
-                        postid={value.postid}
-                        mainid={value.mainid}
-                        key={index}
-                      />
-                    </React.Suspense>
+                    <Post
+                      postid={value.postid}
+                      mainid={value.mainid}
+                      key={index}
+                    />
                   );
                 })
               : ""}

@@ -95,7 +95,8 @@ const profileSchema = new mongoose.Schema({
         relationshipStatus: {
             type: String
         },
-        gender: String
+        gender: String,
+        DOB: String
     }
 
 

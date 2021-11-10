@@ -77,11 +77,35 @@ const Login = () => {
   }, [popup]);
   return (
     <>
-      <section className="login-main ">
+      <section className="login-main bg-primary">
         {popup ? <Popup message={flashmsg} /> : ""}
-        <div className="login-form p-4">
+        <div className="login-form p-5">
+          <svg
+            version="1.0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="45pt"
+            height="45pt"
+            viewBox="0 0 64.000000 64.000000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <g
+              transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)"
+              fill="#1c76fc"
+              stroke="none"
+            >
+              <path
+                d="M108 505 c-57 -39 -100 -135 -102 -227 -1 -86 16 -133 55 -153 81
+                    -43 143 0 230 159 l27 49 37 -59 c92 -147 111 -164 180 -164 102 0 135 159 64
+                    307 -38 78 -77 108 -141 108 -41 0 -52 -5 -87 -39 l-41 -40 -32 31 c-18 17
+                    -43 36 -55 42 -37 19 -95 13 -135 -14z m407 -58 c60 -60 87 -215 45 -257 -11
+                    -11 -25 -20 -30 -20 -19 0 -55 43 -113 138 l-58 93 21 29 c43 60 87 65 135 17z
+                    m-270 -18 c19 -17 35 -38 35 -46 0 -23 -106 -180 -134 -198 -93 -61 -104 153
+                    -13 253 29 31 69 28 112 -9z"
+              />
+            </g>
+          </svg>
           <form action="/usersignin/login" method="post">
-            <label htmlFor="loginEmail" className="fw-bold my-1 ">
+            <label htmlFor="loginEmail" className="fw-bold  ">
               Email
             </label>
             <input
@@ -133,7 +157,7 @@ const Login = () => {
               </span>
             </p>
           </div>
-          <p className="text-primary fw-bold">Or</p>
+          {/* <p className="text-primary fw-bold">Or</p>
           <div className="google-login">
             <button className="btn">
               <img
@@ -143,7 +167,7 @@ const Login = () => {
                 style={{ width: "35%" }}
               />{" "}
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

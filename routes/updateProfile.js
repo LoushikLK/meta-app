@@ -53,7 +53,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
             const result = await cloudinary.uploader.upload(req.file.path);
 
 
-            const data = await profiledata.findByIdAndUpdate(verified._id, { bio: userdata.bio, about: { location: userdata.location, profession: userdata.profession, relationshipStatus: userdata.relationStatus }, profilePicture: result.secure_url }, {})
+            const data = await profiledata.findByIdAndUpdate(verified._id, { bio: userdata.bio, about: { location: userdata.location, profession: userdata.profession, relationshipStatus: userdata.relationStatus, gender: userdata.gender, DOB: userdata.dateofbirth }, profilePicture: result.secure_url }, {})
 
             // console.log(data);
 

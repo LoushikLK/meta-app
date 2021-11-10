@@ -4,10 +4,11 @@ import likeIcon from "../../image/post-ui/like.png";
 import commentIcon from "../../image/post-ui/comment.png";
 import shareIcon from "../../image/post-ui/share.png";
 import { useHistory } from "react-router-dom";
+import Loading from "../common/Loading";
 const Post = (props) => {
   // console.log(props.postid);
   // console.log(props.mainid);
-
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
@@ -25,6 +26,7 @@ const Post = (props) => {
 
   useEffect(() => {
     const getapidata = async () => {
+      setLoading(true);
       try {
         if (props.postid === null && props.mainid === null) {
           return;
@@ -48,7 +50,10 @@ const Post = (props) => {
 
         // console.log(data.message);
 
-        setApidata(data.message);
+        if (response.status === 200) {
+          setApidata(data.message);
+          setLoading(false);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -147,13 +152,18 @@ const Post = (props) => {
             </div>
           </div>
           <div className="post-img w-100">
-            <img
-              src={apidata.post ? apidata.post.postUri : ""}
-              alt=""
-              className="image-fluid w-100"
-              loading="lazy"
-            />
+            {loading ? (
+              <Loading />
+            ) : (
+              <img
+                src={apidata.post ? apidata.post.postUri : ""}
+                alt=""
+                className="image-fluid w-100"
+                loading="lazy"
+              />
+            )}
           </div>
+
           <div className="post-interaction w-100">
             <span
               onClick={() => {

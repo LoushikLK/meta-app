@@ -98,9 +98,8 @@ router.post("/signup", async (req, res) => {
         let firstname = req.body.firstName
         let lastname = req.body.lastName
         let password = req.body.password
-        let gender = req.body.gender
 
-        if (email && firstname && password && lastname && gender != undefined || null) {
+        if (email && firstname && password && lastname != undefined || null) {
 
             let checkemail = await profileDb.findOne({ email: email })
 
@@ -153,7 +152,7 @@ router.post("/signup", async (req, res) => {
                     subject: "META Email Confirm",
                     generateTextFromHTML: true,
                     text: `${otp}`,
-                    html: `<b>Your OTP is${otp}</>`
+                    html: `<b>Your OTP is ${otp}</>`
                 };
 
 
@@ -168,7 +167,7 @@ router.post("/signup", async (req, res) => {
                 if (hashotp) {
 
                     let usercookiedata = {
-                        email, firstname, lastname, gender, password, otp: hashotp
+                        email, firstname, lastname, password, otp: hashotp
                     }
 
                     res.status(200).cookie("userdata", usercookiedata, { httpOnly: true }).json({ message: "email send to reciver" })
@@ -224,7 +223,6 @@ router.post("/emailverification", async (req, res) => {
                     email: userdata.email,
                     password: result,
                     profileName: `${userdata.firstname} ${userdata.lastname}`,
-                    about: [{ gender: userdata.gender }],
                     new: true,
                     profileCreated: new Date(Date.now()).toLocaleDateString()
                 })
