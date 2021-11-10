@@ -30,12 +30,12 @@ const Homefeed = () => {
         const response = await fetch(url, option);
 
         const data = await response.json();
+        console.log(data);
 
         if (response.status === 200) {
           setApi(data.message);
           setLoading(false);
         }
-        // console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -44,7 +44,7 @@ const Homefeed = () => {
     getapidata();
   }, [userDetails._id]);
 
-  // console.log(api);
+  console.log(api.length);
 
   //new id concept use in home to show new post upto 2 days
 
@@ -67,17 +67,16 @@ const Homefeed = () => {
           <div className="col-6 mx-3 home-timeline">
             <UploadToogleUi />
             {loading ? <Loading /> : null}
-            {api !== null && api !== undefined && api !== String
-              ? api.map((value, index) => {
-                  return (
-                    <Post
-                      postid={value.postid}
-                      mainid={value.mainid}
-                      key={index}
-                    />
-                  );
-                })
-              : ""}
+            {api.length > 0 &&
+              api.map((value, index) => {
+                return (
+                  <Post
+                    postid={value.postid}
+                    mainid={value.mainid}
+                    key={index}
+                  />
+                );
+              })}
           </div>
           <div className="col home-extras">
             <Chatfeed />

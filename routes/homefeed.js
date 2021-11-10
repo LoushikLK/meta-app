@@ -82,7 +82,7 @@ router.get("/", auth, async (req, res) => {
 
         }
 
-        return res.status(200).json({ message: "Try adding some people to see their post." })
+        return res.status(400).json({ message: "Try adding some people to see their post." })
 
 
 
@@ -177,7 +177,7 @@ router.get("/sugesteduser", auth, async (req, res) => {
 
         let result = myarray.filter(o1 => !followingid.some(o2 => o1 === o2));
 
-        // console.log(result);
+        console.log(result);
 
         let newsuggestion = alluser.reverse().slice(0, 6)
 
