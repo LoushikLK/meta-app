@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import "./common.css";
 import Popup from "./Popup";
+import TermsandCondition from "./TermsandCondition";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -189,9 +190,35 @@ const Signup = () => {
           </form>
           <p className="text-center fst-italic my-1">
             By clicking Sign Up, you agree to our{" "}
-            <span className="text-primary">Terms</span>,
-            <span className="text-primary">Data Policy</span> and{" "}
-            <span className="text-primary">Cookie Policy.</span>
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                <TermsandCondition />;
+              }}
+            >
+              Terms
+            </span>
+            ,
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                <TermsandCondition />;
+              }}
+            >
+              Data Policy
+            </span>{" "}
+            and{" "}
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                <TermsandCondition />;
+              }}
+            >
+              Cookie Policy.
+            </span>
           </p>
           <div className="not-account">
             <p>

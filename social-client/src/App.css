@@ -79,3 +79,20 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(9, 55, 99);
 }
+
+.my-hidden-input {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  font-size: 0;
+}
+
+.img-preview {
+  height: 200px;
+  margin: 13px 0;
+  border: 1px solid var(--secondary-color);
+  background-image: url("./image/default/uploadimage.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}

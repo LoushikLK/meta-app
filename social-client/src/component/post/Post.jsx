@@ -145,10 +145,10 @@ const Post = (props) => {
               style={{ height: "40px", width: "40px" }}
             />
             <div className="post-detail-main">
-              <span className="fw-bold ms-1">{apidata.profilename}</span>
-              <span className="fst-italic ms-1">
+              <span className=" ms-1">{apidata.profilename}</span>
+              <small className="text-secondary ms-1">
                 {apidata.post ? apidata.post.location : ""}
-              </span>
+              </small>
             </div>
           </div>
           <div className="post-img w-100">
@@ -222,34 +222,36 @@ const Post = (props) => {
             <>
               <div className="post-comment-section w-100 px-2">
                 <div className="post-liked">
-                  <span className="fw-bold ">Liked by </span>
-                  <span>
+                  <span className=" ">Liked by </span>
+                  <span className="text-secondary">
                     {apidata.post && apidata.post.liked[0]
                       ? apidata.post.liked[0].name
                       : ""}{" "}
                   </span>
-                  <span>
-                    and{" "}
+                  and{" "}
+                  <span className="text-secondary">
                     {apidata.post && apidata.post.liked.length > 0
                       ? apidata.post.liked.length - 1
                       : 0}{" "}
-                    other
                   </span>
+                  others
                 </div>
                 <div className="post-desc">
-                  <span className="post-owner fw-bold me-1">
+                  <span className="post-owner  me-1">
                     {apidata.profilename}
                   </span>
-                  <span>{apidata.post ? apidata.post.postCaption : ""}</span>
+                  <span className="text-secondary">
+                    {""} {apidata.post ? apidata.post.postCaption : ""}
+                  </span>
                 </div>
 
                 <div className="comments">
-                  <span className="post-commenter fw-bold me-1">
+                  <span className="post-commenter  me-1">
                     {apidata.post && apidata.post.postComments[0]
                       ? apidata.post.postComments[0].name
                       : "no comments "}
                   </span>
-                  <span>
+                  <span className="text-secondary">
                     {apidata.post && apidata.post.postComments[0]
                       ? apidata.post.postComments[0].comments
                       : ""}

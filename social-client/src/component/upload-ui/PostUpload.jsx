@@ -86,22 +86,19 @@ const PostUpload = () => {
   return (
     <>
       <div className="upload-post-main">
-        {previewImg ? (
-          <div className="img-preview ">
-            <img src={previewImg} alt="" className="img-fluid" />
-          </div>
-        ) : (
-          ""
-        )}
-
         <form>
+          <div className="img-preview ">
+            {previewImg ? (
+              <img src={previewImg} alt="" className="img-fluid" />
+            ) : null}
+          </div>
           <label className="add-label btn btn-primary px-5">
             Add Image{" "}
             <img
               src={AddImage}
               alt="+"
               className="img-fluid mx-1"
-              style={{ width: "2rem" }}
+              style={{ width: "2rem", backgroundColor: "transparent" }}
             />
             <input
               className="fileInput"
@@ -115,7 +112,7 @@ const PostUpload = () => {
               name="caption"
               id="caption-add"
               cols="30"
-              rows="10"
+              rows="4"
               placeholder="Add caption to your post."
               className="form-control"
               value={caption}
@@ -127,7 +124,8 @@ const PostUpload = () => {
             <input
               type="text"
               placeholder="Add Location"
-              id="add-location"
+              id="add-location "
+              className="form-control my-1"
               value={location}
               onChange={(e) => {
                 setLocation(e.target.value);

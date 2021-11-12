@@ -57,7 +57,7 @@ const CompleteProfile = () => {
 
       formData.append("details", JSON.stringify(details));
 
-      axios
+      await axios
         .post(uri, formData, {
           headers: {
             "Content-type": "multipart/form-data",

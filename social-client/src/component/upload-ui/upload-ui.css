@@ -14,7 +14,6 @@
 input {
   background-color: #00000036;
   border: 0px solid;
-  font-size: 1.25rem;
   border-radius: 2.5rem;
 }
 input:focus {
@@ -44,10 +43,7 @@ input:focus {
   visibility: hidden;
   width: 0;
 }
-.img-preview {
-  height: 25vh;
-  width: 21%;
-}
+
 .img-preview img {
   object-fit: cover;
   width: 100%;
@@ -59,9 +55,4 @@ input:focus {
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-}
-#add-location {
-  height: 2.5rem;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
 }

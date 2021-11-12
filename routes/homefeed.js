@@ -169,15 +169,41 @@ router.get("/sugesteduser", auth, async (req, res) => {
 
         // console.log(followingid);
 
-        let myarray = []
 
-        alluser.map((value) => { return myarray.push(value._id) })
+        let myarray = alluser.map((value) => { return value._id })
 
         // console.log(myarray);
 
-        let result = myarray.filter(o1 => !followingid.some(o2 => o1 === o2));
 
-        console.log(result);
+        // myarray.map((value) => {
+
+        //     return followingid.map((items) => {
+
+
+        //         if (myarray.indexOf(items) === -1) {
+        //             console.log();
+        //         }
+        //         return
+
+
+        //     })
+        // })
+
+        let i;
+
+        for (i = 0; i < myarray.length; i++) {
+            if (followingid.indexOf(myarray[i]) === -1) {
+                console.log(myarray[i]);
+            }
+            else {
+                return
+            }
+
+        }
+
+
+
+
 
         let newsuggestion = alluser.reverse().slice(0, 6)
 

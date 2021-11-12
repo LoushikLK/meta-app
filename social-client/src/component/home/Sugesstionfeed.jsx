@@ -74,7 +74,7 @@ const Sugesstionfeed = () => {
                     className="profile-logo image-fluid "
                     style={{ height: "40px", width: "40px" }}
                   />
-                  <span className="fw-bold px-2">{value.profileName}</span>
+                  <span className=" px-2">{value.profileName}</span>
                 </div>
                 <button
                   className="home-follow btn btn-primary rounded-pill d-flex align-items-center"

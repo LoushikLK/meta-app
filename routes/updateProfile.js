@@ -73,5 +73,54 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
 
 })
 
+router.post("/updatecover", auth, upload.single("file"), async (req, res) => {
+
+    console.log("happen");
+
+
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        console.log(result);
+
+        if (result) {
+            profiledata.findByIdAndUpdate(req.header("userid"), { coverPicture: result.secure_url }, {}).then((response) => {
+                res.status(200).json({ message: "cover Image updated successfully" })
+            })
+
+
+        }
+
+    } catch (error) {
+
+        res.status(400).json({ message: "Could not update cover image .Try again." })
+    }
+
+})
+router.post("/updateprofilephoto", auth, upload.single("file"), async (req, res) => {
+
+    console.log("happen");
+
+
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        console.log(result);
+
+        if (result) {
+            profiledata.findByIdAndUpdate(req.header("userid"), { profilePicture: result.secure_url }, {}).then((response) => {
+                res.status(200).json({ message: "Profile Image updated successfully" })
+            })
+
+
+        }
+
+    } catch (error) {
+
+        res.status(400).json({ message: "Could not update cover image .Try again." })
+    }
+
+})
+
 
 module.exports = router;

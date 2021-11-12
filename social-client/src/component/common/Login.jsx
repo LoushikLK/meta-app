@@ -58,7 +58,7 @@ const Login = () => {
         localStorage.setItem("userData", JSON.stringify(data.message));
         dispatch(actionCreators.userdetail({ isLogin: true }));
 
-        console.log(data.message);
+        // console.log(data.message);
       }
       setEmail("");
       setPassword("");
@@ -141,7 +141,12 @@ const Login = () => {
               Log In
             </button>
 
-            <span className="text-center mt-3">Forget Password?</span>
+            <span
+              className="text-center  text-primary mt-3 "
+              style={{ cursor: "pointer" }}
+            >
+              Forget Password?
+            </span>
           </form>
           <div className="not-account">
             <p>
