@@ -98,11 +98,15 @@ const Message = () => {
     <>
       <section className="message-main container mt-5">
         <div className="row">
-          <div className="col-4 message-sneak p-0">
+          <div className="col-4 message-sneak bg-primary p-1 rounded">
             <div className="message-head">
-              <h3 className="text-secondary text-center">Message</h3>
+              <h3 className=" text-center">Message</h3>
               <span>
-                <img src={searchlogo} alt="" style={{ width: "1.5rem" }} />
+                <img
+                  src={searchlogo}
+                  alt=""
+                  style={{ width: "1.5rem", backgroundColor: "transparent" }}
+                />
               </span>
             </div>
 

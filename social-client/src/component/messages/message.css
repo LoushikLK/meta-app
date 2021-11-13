@@ -5,6 +5,8 @@
   justify-content: space-around;
   width: 100%;
   padding: 1rem;
+  background-color: transparent;
+  border-bottom: 1px solid var(--secondary-color);
 }
 .message-sneak {
   display: flex;
@@ -12,6 +14,10 @@
   align-items: center;
   box-shadow: 0px 0px 12px 4px #00000036;
   height: 90vh;
+}
+.message-previews,
+.message-previews div {
+  background-color: transparent;
 }
 
 .message-previews:hover {
@@ -22,6 +28,7 @@
   position: relative;
   top: 0;
   overflow-y: scroll;
+  background-color: transparent;
 }
 .message-container {
   display: flex;

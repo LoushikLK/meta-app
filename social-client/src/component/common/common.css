@@ -55,6 +55,9 @@
 .login-form [type="Submit"] {
   /* border-radius: 2rem; */
   height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-form input[type="radio"] {
@@ -67,13 +70,33 @@
 }
 
 .popup {
-  position: fixed;
-  top: 20%;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: absolute;
+  z-index: 9999999999999;
+  min-height: 100vh;
+  background-color: #3c3c3c6e;
+  flex-direction: column;
 }
-
+.popup-message {
+  padding: 1rem;
+  width: 650px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.popup-inner {
+  box-shadow: 0px 0px 12px 7px var(--primary-color);
+}
+.popup-message p {
+  margin: 0;
+  color: var(--primary-color);
+  background-color: transparent;
+}
 .profile-complete {
   min-height: 100vh;
 }

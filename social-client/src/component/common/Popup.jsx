@@ -3,9 +3,22 @@ import "./common.css";
 const Popup = (props) => {
   return (
     <>
-      <div className="popup d-flex flex-column m-2 p-2">
-        <div className="popup-message w-50 bg-primary p-2">
-          <p className="text-light fs-3 text-center">{props.message}</p>
+      <div className="popup">
+        <div className="popup-inner">
+          <h3 className="w-100 text-center bg-secondary m-0 py-2 rounded-top">
+            {props.title}
+          </h3>
+          <div
+            className="popup-message rounded-bottom"
+            style={{
+              backgroundColor: `${
+                props.backgroundColor === "danger" ? "#d70000a3" : "#4cb9689e"
+              }`,
+            }}
+          >
+            <p className=" fs-3 m-0 text-center popup-box ">{props.message}</p>
+            <button className="btn btn-primary w-100 l-0">OK</button>
+          </div>
         </div>
       </div>
     </>

@@ -2,7 +2,7 @@ import React from "react";
 
 const TermsandCondition = () => {
   return (
-    <div>
+    <div className="d-flex flex-column align-items-center">
       <h1>TERM'S AND CONDITION AND PRIVACY POLICY</h1>
 
       <hr />

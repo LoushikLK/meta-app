@@ -9,6 +9,13 @@ body {
   background-color: var(--primary-color);
   color: var(--secondary-color);
 }
+h1,
+p,
+span,
+h2,
+h3 {
+  background-color: transparent;
+}
 :root {
   --primary-color: #181818;
   --secondary-color: #f2f2f2;

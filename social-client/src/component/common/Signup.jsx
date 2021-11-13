@@ -194,7 +194,7 @@ const Signup = () => {
               className="text-primary"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                <TermsandCondition />;
+                history.push("/terms");
               }}
             >
               Terms
@@ -204,7 +204,7 @@ const Signup = () => {
               className="text-primary"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                <TermsandCondition />;
+                history.push("/terms");
               }}
             >
               Data Policy
@@ -214,7 +214,7 @@ const Signup = () => {
               className="text-primary"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                <TermsandCondition />;
+                history.push("/terms");
               }}
             >
               Cookie Policy.

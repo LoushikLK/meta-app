@@ -151,14 +151,14 @@ const Post = (props) => {
               </small>
             </div>
           </div>
-          <div className="post-img w-100">
+          <div className="post-img w-100 px-2">
             {loading ? (
               <Loading />
             ) : (
               <img
                 src={apidata.post ? apidata.post.postUri : ""}
                 alt=""
-                className="image-fluid w-100"
+                className="image-fluid w-100  rounded"
                 loading="lazy"
               />
             )}

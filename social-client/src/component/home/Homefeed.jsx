@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../common/Loading";
+import Popup from "../common/Popup";
 import Post from "../post/Post";
 import UploadToogleUi from "../upload-ui/UploadToogleUi";
 import Chatfeed from "./Chatfeed";

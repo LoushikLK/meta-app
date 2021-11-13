@@ -1,6 +1,6 @@
 import React from "react";
 
-const Metalogin = (props) => {
+const Metaloading = (props) => {
   return (
     <div style={{ backgroundColor: "#00000000" }}>
       <svg
@@ -41,4 +41,4 @@ const Metalogin = (props) => {
   );
 };
 
-export default Metalogin;
+export default Metaloading;

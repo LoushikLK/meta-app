@@ -4,6 +4,9 @@ const router = express.Router()
 const multer = require("multer")
 const jwt = require("jsonwebtoken")
 const cloudinary = require("cloudinary").v2
+const bcrypt = require("bcrypt")
+
+const saltRound = 10;
 
 
 const SECRET_KEY = process.env.LOGIN_JWT_SECRET
@@ -121,6 +124,9 @@ router.post("/updateprofilephoto", auth, upload.single("file"), async (req, res)
     }
 
 })
+
+
+
 
 
 module.exports = router;

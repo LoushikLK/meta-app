@@ -11,6 +11,7 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 const saltRound = 10;
+
 router.post("/login", async (req, res) => {
     try {
 
@@ -83,7 +84,6 @@ router.post("/login", async (req, res) => {
         console.log("data not sent");
     }
 })
-
 
 
 router.post("/signup", async (req, res) => {
@@ -258,5 +258,152 @@ router.post("/emailverification", async (req, res) => {
 })
 router.get("/logout", (req, res) => {
     res.clearCookie("authtoken").json({ message: "you are logged out!" })
+})
+router.post("/updatepassword", async (req, res) => {
+
+    console.log("update password");
+    // console.log(req.body);
+    try {
+
+        if (req.body.email !== null && req.body.email !== undefined) {
+
+            const user = await profileDb.findOne({ email: req.body.email })
+
+            // console.log(user);
+
+            if (!user) {
+                // console.log("email doesnot exist");
+
+                res.status(400).json({ message: "Email doesnot exist try again with a correct one." })
+            }
+            else if (user) {
+
+                const oauth2Client = new OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+
+                oauth2Client.setCredentials({
+                    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+                });
+
+                const accessToken = oauth2Client.getAccessToken()
+
+
+                // create reusable transporter object using the default SMTP transport
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        type: "OAuth2",
+                        user: "gangmbj@gmail.com",
+                        clientId: process.env.GOOGLE_CLIENT_ID,
+                        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+                        accessToken: accessToken
+                    }
+                });
+
+
+                var otp = Math.floor(1000 + Math.random() * 9000);
+
+                console.log(otp);
+
+
+
+                const mailOptions = {
+                    from: "gangmbj@gmail.com",
+                    to: req.body.email,
+                    subject: "META password change.",
+                    generateTextFromHTML: true,
+                    text: `${otp}`,
+                    html: `<b>Your OTP is ${otp}</>`
+                };
+
+
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, (error, response) => {
+                    error ? console.log(error) : console.log(response);
+                    transporter.close();
+                });
+
+                let hashotp = await bcrypt.hash(`${otp}`, saltRound)
+
+                if (hashotp) {
+
+                    let updatepassword = {
+                        email: req.body.email, otp: hashotp
+                    }
+
+                    res.status(200).clearCookie("userData").clearCookie("authtoken").cookie("updatepassword", updatepassword).json({ message: `Hello ${user.profileName}` })
+                    return
+                }
+
+
+
+
+            }
+
+            return
+        }
+        else {
+
+            res.status(400).json({ message: "Please Enter User email." })
+        }
+
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(400).json({ message: "Could not update your password .Try again." })
+    }
+
+
+
+})
+router.post("/setnewpassword", async (req, res) => {
+
+    console.log("update new password");
+    // console.log(req.cookies);
+
+    if (req.body.password === null) {
+        res.status(400).json({ message: "Please enter a new password" })
+    }
+    else if (req.body.otp === null) {
+        res.status(400).json({ message: "Please enter a valid OTP" })
+
+    }
+
+
+    try {
+
+        bcrypt.compare(req.body.otp, req.cookies.updatepassword.otp, async (err, match) => {
+
+            if (err) {
+                res.status(400).json({ message: "OTP provided is worng or not valid .Try again." })
+            }
+
+            let hash = await bcrypt.hash(req.body.password, saltRound)
+
+            if (hash) {
+
+                const user = await profileDb.findOneAndUpdate({ email: req.cookies.updatepassword.email }, { password: hash })
+
+                if (!user) {
+                    res.status(400).clearCookie("updatepassword").json({ message: "User doesnot exist .Try again." })
+                }
+                res.status(200).clearCookie("updatepassword").json({ message: "Password is changed" })
+            }
+
+        })
+
+
+
+    } catch (error) {
+
+        // console.log(error);
+
+        res.status(400).json({ message: "Could not update your password .Try again." })
+    }
+
+
+
 })
 module.exports = router

@@ -36,7 +36,14 @@ const CompleteProfile = () => {
     ) {
       console.log("fill all the blanks");
       return;
+    } else if (bio.length > 40) {
+      console.log("Keep bio length under 40 letter.");
+      return;
+    } else if (profession.length > 15 || location.length > 15) {
+      console.log("Keep profession and location length under 15 letter.");
+      return;
     }
+
     try {
       setUploadanimation(true);
 

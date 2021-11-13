@@ -18,6 +18,8 @@ import Signup from './component/common/Signup'
 import PostUpload from './component/upload-ui/PostUpload';
 import CompleteProfile from './component/common/CompleteProfile';
 import OtpVerifyPage from './component/common/OtpVerifyPage';
+import ForgetPassword from './component/common/ForgetPassword';
+import TermsandCondition from './component/common/TermsandCondition';
 
 
 
@@ -45,7 +47,7 @@ function App() {
 
       const data = await response.json();
 
-      console.log(data);
+      // console.log(data);
 
       // console.log(response.status);
 
@@ -75,7 +77,9 @@ function App() {
           <Route path="/login" component={Login} exact />
           <Route path="/signup" component={Signup} exact />
           <Route path="/verifyotp" component={OtpVerifyPage} exact />
+          <Route path="/changepassword" component={ForgetPassword} exact />
           <Route path="/completeprofile" component={CompleteProfile} exact />
+          <Route path="/terms" component={TermsandCondition} exact />
           <ProtectedRoute exact path="/" component={Homefeed} />
           <ProtectedRoute path="/profile" component={Profile} />
           <ProtectedRoute path="/messages" component={Message} />

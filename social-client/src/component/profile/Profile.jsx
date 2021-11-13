@@ -10,7 +10,7 @@ import Card from "../common/Card";
 import livesinicon from "../../image/about/livein.png";
 import relationshipicon from "../../image/about/relationship.png";
 import professionicon from "../../image/about/profession.png";
-import Metalogin from "../common/Metalogin";
+import Metaloading from "../common/Metaloading";
 
 const Profile = () => {
   document.title = "Profile";
@@ -201,7 +201,7 @@ const Profile = () => {
                       }}
                       className="btn btn-primary mx-1"
                     >
-                      <Metalogin width="23pt" height="23pt" />
+                      <Metaloading width="23pt" height="23pt" />
                     </span>
                   </>
                 ) : (
@@ -267,7 +267,7 @@ const Profile = () => {
                         }}
                         className="btn btn-primary mx-1"
                       >
-                        <Metalogin width="23pt" height="23pt" />
+                        <Metaloading width="23pt" height="23pt" />
                       </span>
                     </>
                   ) : (
@@ -305,7 +305,7 @@ const Profile = () => {
                   style={{
                     zIndex: "9999999",
                     position: "relative",
-                    bottom: "47px",
+                    bottom: "41px",
                   }}
                   className="btn btn-primary"
                 >

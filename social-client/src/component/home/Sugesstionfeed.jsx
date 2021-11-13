@@ -79,12 +79,8 @@ const Sugesstionfeed = () => {
                 <button
                   className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
                   style={{ height: "32px" }}
-                  onClick={() => {
-                    handleFollow(value._id);
-                    setButtonType("unfollow");
-                  }}
                 >
-                  {buttonType}
+                  follow
                 </button>
               </>
             ) : (

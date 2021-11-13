@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
+
 import "./common.css";
-import googleicon from "../../image/login-signup/googleicon.png";
-import { useHistory } from "react-router";
+// import googleicon from "../../image/login-signup/googleicon.png";
+import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../store";
 import Popup from "./Popup";
+import Metaloading from "./Metaloading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [popup, setPopup] = useState(false);
   const [flashmsg, setFlashmsg] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,6 +31,7 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       e.preventDefault();
       // console.log(gender);
       const url = "/usersignin/login";
@@ -47,7 +52,7 @@ const Login = () => {
 
       const data = await response.json();
 
-      console.log(response.status);
+      // console.log(response.status);
 
       if (data.message !== undefined && response.status !== 200) {
         setFlashmsg(data.message);
@@ -57,18 +62,24 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem("userData", JSON.stringify(data.message));
         dispatch(actionCreators.userdetail({ isLogin: true }));
+        history.push("/");
 
         // console.log(data.message);
       }
+      setLoading(false);
       setEmail("");
       setPassword("");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
-  if (userDetail.isLogin === true) {
-    history.push("/");
-  }
+
+  useEffect(() => {
+    if (userDetail.isLogin === true) {
+      return history.push("/");
+    }
+    return;
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -138,12 +149,15 @@ const Login = () => {
               className="btn btn-primary mt-4 fw-bold"
               onClick={handleLogin}
             >
-              Log In
+              {loading ? <Metaloading width="3rem" /> : "Login"}
             </button>
 
             <span
               className="text-center  text-primary mt-3 "
               style={{ cursor: "pointer" }}
+              onClick={() => {
+                history.push("/changepassword");
+              }}
             >
               Forget Password?
             </span>
