@@ -253,7 +253,7 @@ const Profile = () => {
                 className="image-fluid cover-img"
               />
             )}
-            <label style={{ height: "0" }}>
+            <label style={{ height: "0", position: "absolute" }}>
               {updateCover ? (
                 <>
                   {metaloading ? (
@@ -275,8 +275,6 @@ const Profile = () => {
                       <span
                         style={{
                           zIndex: "9999999",
-                          position: "relative",
-                          bottom: "38px",
                         }}
                         className="btn btn-primary mx-1"
                         onClick={updatecover}
@@ -286,8 +284,6 @@ const Profile = () => {
                       <span
                         style={{
                           zIndex: "9999999",
-                          position: "relative",
-                          bottom: "38px",
                         }}
                         className="btn btn-primary "
                         onClick={(e) => {
@@ -304,8 +300,6 @@ const Profile = () => {
                 <span
                   style={{
                     zIndex: "9999999",
-                    position: "relative",
-                    bottom: "41px",
                   }}
                   className="btn btn-primary"
                 >

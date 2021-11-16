@@ -35,7 +35,8 @@ router.put("/follow", auth, async (req, res) => {
             const updatefollowing = await profiledata.findOneAndUpdate({ _id: req.body.id }, { $push: { following: { id: req.body.interectId } } }, {
                 new: true
             })
-            const updatefollowers = await profiledata.findOneAndUpdate({ _id: req.body.interectId }, { $push: { followers: { id: req.body.id } } }, {
+
+            const updatefollowers = await profiledata.findOneAndUpdate({ _id: req.body.interectId }, { $push: { followers: { id: req.body.id }, notification: `${updatefollowing} started following you.` } }, {
                 new: true
             })
 
@@ -64,7 +65,7 @@ router.put("/unfollow", auth, async (req, res) => {
     try {
         if (req.body && req.body.id && req.body.interectId) {
 
-            console.log(req.body.interectId + "interect id");
+            // console.log(req.body.interectId + "interect id");
 
             console.log("at unfollow");
 
@@ -98,8 +99,8 @@ router.put("/unfollow", auth, async (req, res) => {
 
 
 router.put("/liked", auth, async (req, res) => {
-    console.log(req.header("mainuser"));
-    console.log(req.body);
+    // console.log(req.header("mainuser"));
+    // console.log(req.body);
 
     try {
         const mainuser = await profiledata.findById(req.header("mainuser"))
@@ -113,7 +114,13 @@ router.put("/liked", auth, async (req, res) => {
 
 
                     if (response) {
-                        res.status(200).json({ message: `You Liked ${response.profileName}'s photo.` })
+                        profiledata.findOneAndUpdate({ _id: req.body.userid }, { $push: { notification: `${mainuser.profileName} liked your photo.` } }, {
+                            new: true
+                        }).then(() => {
+
+                            res.status(200).json({ message: `You Liked ${response.profileName}'s photo.` })
+                        })
+
                     }
 
                 })
@@ -157,8 +164,8 @@ router.put("/unliked", auth, async (req, res) => {
 
 })
 router.put("/comment", auth, async (req, res) => {
-    console.log(req.header("mainuser"));
-    console.log(req.body);
+    // console.log(req.header("mainuser"));
+    // console.log(req.body);
 
     try {
         const mainuser = await profiledata.findById(req.header("mainuser"))
@@ -174,7 +181,12 @@ router.put("/comment", auth, async (req, res) => {
 
 
                     if (response) {
-                        res.status(200).json({ message: `You Commented on  ${response.profileName}'s photo.` })
+                        profiledata.findOneAndUpdate({ _id: req.body.userid }, { $push: { notification: `${mainuser.profileName} commented ${req.body.textcomment}.` } }, {
+                            new: true
+                        }).then(() => {
+                            res.status(200).json({ message: `You Commented on  ${response.profileName}'s photo.` })
+                        })
+
                     }
 
                 })
@@ -214,6 +226,25 @@ router.put("/removecomment", auth, async (req, res) => {
         res.status(400).json({ message: "Something went wrong try again." })
     }
 
+})
+router.get("/notifications", auth, async (req, res) => {
+
+    try {
+        let userid = req.header("userid")
+
+        const user = await profiledata.findById(userid)
+
+        if (user) {
+            // console.log(user);
+            res.status(200).json({ message: user.notification })
+        }
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "Something Went Wrong.Try Again Later." })
+    }
 })
 
 

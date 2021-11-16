@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+MessageFull.jsx
+
 # testing
 /coverage
 

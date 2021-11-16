@@ -19,6 +19,10 @@ app.use(express.static(path.resolve(__dirname, './social-client/build')));
 //configure environment veriable
 require('dotenv').config()
 
+app.use(express());
+
+app.use(require("cors")())
+
 const PORT = process.env.PORT;
 
 //mongoose connection
@@ -36,6 +40,7 @@ const postImage = require("./routes/postImageToDb")
 const updateProfile = require("./routes/updateProfile")
 const homefeed = require("./routes/homefeed")
 const userUserIntraction = require("./routes/userUserIntraction")
+const message = require("./routes/message")
 
 app.use("/profilefeed", profilefeed)
 app.use("/usersignin", usersignin)
@@ -46,6 +51,26 @@ app.use("/postimage", postImage)
 app.use("/updateprofile", updateProfile)
 app.use("/homefeed", homefeed)
 app.use("/userintraction", userUserIntraction)
+app.use("/message", message)
+
+
+
+
+
+
+
+
+////////////////////////////////demo//////////////////////////////////////////
+const profiledata = require("./db/profileModule")
+
+app.get("/getfriend", async (req, res) => {
+
+    const data = await profiledata.find()
+    // console.log(data);
+    console.log("hoo");
+    res.json({ message: data.slice(data.length - 2, data.length) })
+})
+
 
 
 
@@ -56,3 +81,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server Started at Port ${PORT}🗃️`);
 })
+
+

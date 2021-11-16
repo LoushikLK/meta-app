@@ -8,6 +8,7 @@ import Loading from "../common/Loading";
 const Post = (props) => {
   // console.log(props.postid);
   // console.log(props.mainid);
+  const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -88,7 +89,11 @@ const Post = (props) => {
 
       const data = await response.json();
 
-      console.log(data.message);
+      if (response.status === 200) {
+        setCount(count + 1);
+      }
+
+      // console.log(data.message);
     } catch (err) {
       console.log(err);
     }
@@ -231,7 +236,7 @@ const Post = (props) => {
                   and{" "}
                   <span className="text-secondary">
                     {apidata.post && apidata.post.liked.length > 0
-                      ? apidata.post.liked.length - 1
+                      ? apidata.post.liked.length - 1 + count
                       : 0}{" "}
                   </span>
                   others

@@ -28,9 +28,53 @@
   font-size: 14px;
   font-style: italic;
 }
+.setting-dropdown {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  top: 100%;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.setting-dropdown li {
+  padding: 0 2rem;
+  border-bottom: 1px solid #00000040;
+}
+.setting-dropdown li:hover {
+  background-color: #41414140;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 768px) {
   .nav-search-label {
     width: 100%;
+  }
+  .nav-icons {
+    width: 100%;
+  }
+  .nav-icons ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.selected-nav {
+  border-bottom: 3px solid blue;
+}
+
+/*media queries for navbar */
+@media screen and (max-width: 400px) {
+  .navbar-main {
+    padding: 5px !important;
+  }
+  .nav-search-label {
+    width: 100%;
+  }
+  .container-fluid {
+    justify-content: center !important;
   }
 }

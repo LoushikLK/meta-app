@@ -72,3 +72,6 @@
   position: sticky;
   bottom: 0;
 }
+.message-view {
+  min-height: 100vh;
+}

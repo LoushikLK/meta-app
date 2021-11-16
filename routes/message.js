@@ -1,5 +1,10 @@
-const router = require("express").Router();
+const express = require("express")
+const app = express()
+
+const router = express.Router()
+
 const messagedb = require("../db/messageModule")
+const profiledata = require("../db/profileModule")
 //add
 
 router.post("/", async (req, res) => {
@@ -25,5 +30,9 @@ router.get("/:conversationId", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get("/getfriends", async (req, res) => {
+    console.log("hii");
+})
 
 module.exports = router;

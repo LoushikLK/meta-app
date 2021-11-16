@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./notification.css";
 import profileicon from "../../image/profiledemo/profile.jpg";
 const Notification = () => {
+  const [notifications, setNotifications] = useState([]);
+  let user = JSON.parse(localStorage.getItem("userData"));
+  useEffect(() => {
+    console.log("hi");
+    const getNotification = async () => {
+      const response = await fetch("/userintraction/notifications", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: user._id,
+        },
+      });
+      const data = await response.json();
+      // console.log(data);
+      setNotifications(data.message);
+    };
+    getNotification();
+  }, []);
+  console.log(notifications);
   return (
     <>
       <section className="d-flex flex-column notification-main  p-4">
@@ -9,135 +28,35 @@ const Notification = () => {
         <hr />
         <div className="all-notification">
           <div className="d-flex align-items-center justify-content-around flex-column mx-3">
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
+            {notifications.length > 0 ? (
+              notifications.map((notification) => {
+                return (
+                  <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
+                    {/* <img
                 src={profileicon}
                 alt=""
                 className="profile-logo image-fluid p-1"
                 style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">
-                liked your photo Lorem ipsum dolor sit Lorem ipsum dolor sit
-                amet. amet consectetur.
-              </p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
+              /> */}
+                    {/* <span className="fw-bold px-2 ">John cena</span> */}
+                    <p className="m-0">{notification}</p>{" "}
+                    <span className="notification-time mx-1"> 2hr ago</span>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
+                {/* <img
                 src={profileicon}
                 alt=""
                 className="profile-logo image-fluid p-1"
                 style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">
-                liked your photo Lorem ipsum dolor sit Lorem ipsum Lorem ipsum
-                dolor sit amet consectetur, adipisicing elit. Distinctio totam
-                perferendis odio, expedita dolores facere debitis, nihil enim,
-                ducimus hic fugiat iste vero? dolor sit amet. amet consectetur.
-              </p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
-            <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
-              <img
-                src={profileicon}
-                alt=""
-                className="profile-logo image-fluid p-1"
-                style={{ height: "40px", width: "40px" }}
-              />
-              <span className="fw-bold px-2 ">John cena</span>
-              <p className="m-0">liked your photo .</p>{" "}
-              <span className="notification-time mx-1"> 2hr ago</span>
-            </div>
+              /> */}
+                {/* <span className="fw-bold px-2 ">John cena</span> */}
+                <p className="m-0">"No new notification"</p>{" "}
+                {/* <span className="notification-time mx-1"> 2hr ago</span> */}
+              </div>
+            )}
           </div>
         </div>
       </section>

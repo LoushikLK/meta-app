@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 const Sugesstionfeed = () => {
   const [profile, setProfile] = useState([]);
-  const [buttonType, setButtonType] = useState("follow");
 
   const userDetails = JSON.parse(localStorage.getItem("userData"));
 
@@ -33,10 +32,9 @@ const Sugesstionfeed = () => {
   }, [userDetails._id]);
 
   const handleFollow = async (id) => {
-    console.log(buttonType);
     console.log(id);
 
-    let url = `/userintraction/${buttonType}`;
+    let url = `/userintraction/follow`;
     let option = {
       method: "PUT",
       headers: {
@@ -52,43 +50,52 @@ const Sugesstionfeed = () => {
 
     const data = await response.json();
 
+    if (profile.length > 0) {
+      setProfile(profile.filter((item) => item._id !== id));
+    }
+
     console.log(data);
   };
 
-  // console.log(profile);
+  console.log(profile);
 
   return (
     <>
-      {profile.map((value, index) => {
-        return (
-          <div
-            className="d-flex align-items-center justify-content-between"
-            key={value._id}
-          >
-            {value._id !== userDetails._id ? (
-              <>
-                <div className="my-2 d-flex align-items-center flex-row">
-                  <img
-                    src={value.profilePicture}
-                    alt=""
-                    className="profile-logo image-fluid "
-                    style={{ height: "40px", width: "40px" }}
-                  />
-                  <span className=" px-2">{value.profileName}</span>
-                </div>
-                <button
-                  className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
-                  style={{ height: "32px" }}
-                >
-                  follow
-                </button>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
-        );
-      })}
+      {profile.length > 0
+        ? profile.map((value, index) => {
+            return (
+              <div
+                className="d-flex align-items-center justify-content-between"
+                key={value._id}
+              >
+                {value._id !== userDetails._id ? (
+                  <>
+                    <div className="my-2 d-flex align-items-center flex-row">
+                      <img
+                        src={value.profilePicture}
+                        alt=""
+                        className="profile-logo image-fluid "
+                        style={{ height: "40px", width: "40px" }}
+                      />
+                      <span className=" px-2">{value.profileName}</span>
+                    </div>
+                    <button
+                      className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
+                      style={{ height: "32px" }}
+                      onClick={() => {
+                        handleFollow(value._id);
+                      }}
+                    >
+                      follow
+                    </button>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          })
+        : "No suggestion"}
     </>
   );
 };

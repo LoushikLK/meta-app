@@ -189,17 +189,17 @@ router.get("/sugesteduser", auth, async (req, res) => {
         //     })
         // })
 
-        let i;
+        // let i;
 
-        for (i = 0; i < myarray.length; i++) {
-            if (followingid.indexOf(myarray[i]) === -1) {
-                console.log(myarray[i]);
-            }
-            else {
-                return
-            }
+        // for (i = 0; i < myarray.length; i++) {
+        //     if (followingid.indexOf(myarray[i]) === -1) {
+        //         console.log(myarray[i]);
+        //     }
+        //     else {
+        //         return
+        //     }
 
-        }
+        // }
 
 
 
