@@ -15,20 +15,81 @@ const Message = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [receivedMessage, setReceivedMessage] = useState(null);
   const scrollRef = useRef();
+  const [allUser, setAllUser] = useState(null);
 
   //demo////////////////////////////////////////////////////////////////
   const [data, setData] = useState([]);
   // console.log(messages);
 
   ////////////////////socket.io////////////////////////////////////////////
+  const socket = io("http://localhost:5000", {
+    transports: ["websocket", "polling", "flashsocket"],
+  });
+
+  useEffect(() => {
+    let userconnected = JSON.stringify({
+      name: user.profileName,
+      image: user.profilePicture,
+    });
+    socket.emit("new-user-joined", userconnected);
+  }, [user.profileName, user.profilePicture]);
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      console.log(message);
+      setMessages([...messages, message]);
+    });
+    socket.on("user-joined", (details) => {
+      // console.log(details);
+      let data = JSON.parse(details);
+      // console.log(data);
+      setAllUser(data.length);
+      // console.log(name + " joined");
+    });
+    socket.on("recieve-chat-message", (data) => {
+      // console.log(data);
+
+      if (receivedMessage !== null) {
+        setReceivedMessage([...receivedMessage, data]);
+      } else {
+        setReceivedMessage([data]);
+      }
+    });
+  }, [socket]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setNewMessage("");
+    if (newMessage !== "") {
+      socket.emit("send-chat-message", {
+        message: newMessage,
+        user: user.profileName,
+        image: user.profilePicture,
+      });
+      setNewMessage("");
+    }
+    return;
   };
+
+  const showmessages = (details, position) => {
+    if (position === "left") {
+      return (
+        <div className="d-block received-message m-2">
+          <p>{details.message}</p>
+        </div>
+      );
+    } else if (position === "right") {
+      return (
+        <div className="d-block sent-message m-2">
+          <p>{details.message}</p>
+        </div>
+      );
+    }
+  };
+  console.log(allUser);
+  console.log(receivedMessage);
   return (
     <>
       <section className="message-main container mt-5">
@@ -39,24 +100,29 @@ const Message = () => {
                 <span className="d-flex flex-column align-items-start">
                   <h3 className="fw-bold">Meta Chat Room</h3>
                   <p>
-                    users active <span>&#x1F30E;</span>
+                    {allUser} users active <span>&#x1F30E;</span>
                   </p>
                 </span>
               </div>
               <div className="message-view">
-                <div className="d-block received-message m-2">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit
-                    amet consectetur adipisicing elit.adipisicing elit.
-                    Inventore, amet!
-                  </p>
-                </div>
-                <div className=" sent-message m-2">
+                {receivedMessage !== null
+                  ? receivedMessage.map((details, i) => {
+                      return (
+                        <div className="d-block received-message m-2" key={i}>
+                          <p>
+                            {details.user} : {details.message}
+                          </p>
+                        </div>
+                      );
+                    })
+                  : null}
+
+                {/* <div className=" sent-message m-2">
                   <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Tempore, laborum magni nam maiores est facilis?
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="message-type-area">
                 <form className="d-flex flex-row align-items-center justify-content-center">
