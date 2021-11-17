@@ -24,7 +24,7 @@ const Message = () => {
   // console.log(messages);
 
   ////////////////////socket.io////////////////////////////////////////////
-  const socket = io("http://localhost:5000", {
+  const socket = io("/", {
     transports: ["websocket", "polling", "flashsocket"],
   });
 
