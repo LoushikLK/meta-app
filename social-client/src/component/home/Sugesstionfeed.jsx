@@ -25,14 +25,17 @@ const Sugesstionfeed = () => {
           setProfile(data.message);
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
     getuser();
+    return () => {
+      setProfile([]);
+    };
   }, [userDetails._id]);
 
   const handleFollow = async (id) => {
-    console.log(id);
+    // console.log(id);
 
     let url = `/userintraction/follow`;
     let option = {
@@ -54,10 +57,10 @@ const Sugesstionfeed = () => {
       setProfile(profile.filter((item) => item._id !== id));
     }
 
-    console.log(data);
+    // console.log(data);
   };
 
-  console.log(profile);
+  // console.log(profile);
 
   return (
     <>

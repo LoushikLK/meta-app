@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Loading from "../common/Loading";
 import Post from "../post/Post";
 
-const Timeline = () => {
+const Timeline = (props) => {
   const [timelinedata, setTimelinedata] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const userDetails = JSON.parse(localStorage.getItem("userData"));
+  // const userDetails = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
     const getprofiledata = async () => {
@@ -18,7 +18,7 @@ const Timeline = () => {
           method: "get",
           headers: {
             "Content-Type": "application/json",
-            userid: userDetails._id,
+            userid: props.userid,
           },
         };
         const response = await fetch(url, option);
@@ -31,11 +31,11 @@ const Timeline = () => {
         }
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     getprofiledata();
-  }, [userDetails._id]);
+  }, [props.userid]);
 
   // console.log(timelinedata);
   return (

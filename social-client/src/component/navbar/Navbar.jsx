@@ -21,10 +21,10 @@ export const Navbar = () => {
 
   const dispatch = useDispatch();
 
-  const showSearch = useSelector((state) => state.searchComponent.showSearch);
+  // const showSearch = useSelector((state) => state.searchComponent.showSearch);
   dispatch(actionCreators.searchcomponent({ showSearch: true }));
 
-  console.log(showSearch);
+  // console.log(showSearch);
 
   useEffect(() => {
     if (search === "" || search === null) {
@@ -38,12 +38,13 @@ export const Navbar = () => {
     let url = "/usersignin/logout";
 
     const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-
-    dispatch(actionCreators.userdetail({ isLogin: false }));
-    localStorage.removeItem("userData");
-    history.push("/login");
+    // const data = await response.json();
+    // console.log(data);
+    if (response) {
+      dispatch(actionCreators.userdetail({ isLogin: false }));
+      localStorage.removeItem("userData");
+      history.push("/login");
+    }
   };
 
   return (
@@ -141,13 +142,7 @@ export const Navbar = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink
-                    className="nav-link mx-1"
-                    to="/messages"
-                    onFocus={() => {
-                      console.log("message");
-                    }}
-                  >
+                  <NavLink className="nav-link mx-1" to="/messages">
                     <svg
                       version="1.0"
                       xmlns="http://www.w3.org/2000/svg"

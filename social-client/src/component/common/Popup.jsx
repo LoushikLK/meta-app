@@ -12,12 +12,12 @@ const Popup = (props) => {
             className="popup-message rounded-bottom"
             style={{
               backgroundColor: `${
-                props.backgroundColor === "danger" ? "#d70000a3" : "#4cb9689e"
+                props.backgroundColor === "danger" ? "#d70000a3" : "#ffffff"
               }`,
             }}
           >
             <p className=" fs-3 m-0 text-center popup-box ">{props.message}</p>
-            <button className="btn btn-primary w-100 l-0">OK</button>
+            {/* <button className="btn btn-primary w-100 l-0">OK</button> */}
           </div>
         </div>
       </div>

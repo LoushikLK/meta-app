@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Metaloading from "./Metaloading";
 import { useHistory } from "react-router-dom";
+import Popup from "./Popup";
 
 const UpdatePassword = () => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState("");
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   const history = useHistory();
 
   const updatePassword = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Password does not match");
+      setPopupMessage("Password does not match");
+      setPopup(true);
       return;
     } else if (otp.length !== 4) {
-      alert("OTP must be 4 digit.");
+      setPopupMessage("OTP must be 4 digit.");
+      setPopup(true);
       return;
     } else if (password.length < 6 || password.length > 20) {
-      alert("Password must be between 6 to 20 character.");
+      setPopupMessage("Password must be between 6 to 20 character.");
+      setPopup(true);
       return;
     }
     try {
@@ -33,18 +39,32 @@ const UpdatePassword = () => {
       });
       const data = await response.json();
       if (response.status === 200) {
-        alert("Password updated successfully");
+        setPopupMessage("Password Changes sucessesfully.");
+        setPopup(true);
         history.push("/login");
       } else {
-        alert(data.message);
+        setPopupMessage(data.message);
+        setPopup(true);
       }
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
+  useEffect(() => {
+    if (popup) {
+      setTimeout(() => {
+        setPopup(false);
+      }, 3000);
+    }
+    return () => {
+      setPopup(false);
+    };
+  }, [popup]);
   return (
     <div>
+      {popup ? <Popup title="Response" message={popupMessage} /> : null}
+
       <h3> Enter OTP provided to your email.</h3>
       <input
         type="text"

@@ -50,15 +50,21 @@
 .received-message {
   width: 95%;
   text-align: left;
+  background-color: transparent;
 }
 .received-message p,
 .sent-message p {
   margin: 0;
-  padding: 1rem;
+  padding: 0.5rem;
   box-shadow: 0px 0px 12px 0px #00000057;
-  border-radius: 10rem;
+  border-radius: 0.7rem;
   display: flex;
   max-width: 70%;
+  background-color: #1c76fcb5;
+}
+
+.received-message p {
+  background-color: #3a3a3a78;
 }
 
 .sent-message {
@@ -66,6 +72,8 @@
   text-align: right;
   display: flex;
   justify-content: flex-end;
+  background-color: transparent;
+  align-items: center;
 }
 .message-type-area {
   background-color: #e6e7e8;
@@ -74,4 +82,14 @@
 }
 .message-view {
   min-height: 100vh;
+  background-image: url("../../image/message/background.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+@media screen and (max-width: 405px) {
+  .message-form {
+    flex-direction: column;
+  }
 }

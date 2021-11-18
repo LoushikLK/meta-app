@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./notification.css";
-import profileicon from "../../image/profiledemo/profile.jpg";
+// import profileicon from "../../image/profiledemo/profile.jpg";
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   let user = JSON.parse(localStorage.getItem("userData"));
   useEffect(() => {
-    console.log("hi");
     const getNotification = async () => {
       const response = await fetch("/userintraction/notifications", {
         method: "GET",
@@ -19,8 +18,8 @@ const Notification = () => {
       setNotifications(data.message);
     };
     getNotification();
-  }, []);
-  console.log(notifications);
+  }, [user._id]);
+  // console.log(notifications);
   return (
     <>
       <section className="d-flex flex-column notification-main  p-4">
@@ -29,9 +28,12 @@ const Notification = () => {
         <div className="all-notification">
           <div className="d-flex align-items-center justify-content-around flex-column mx-3">
             {notifications.length > 0 ? (
-              notifications.map((notification) => {
+              notifications.map((notification, index) => {
                 return (
-                  <div className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications">
+                  <div
+                    className="my-2 d-flex flex-row w-100 flex-wrap align-items-center notifications"
+                    key={index}
+                  >
                     {/* <img
                 src={profileicon}
                 alt=""

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./common.css";
-const Card = () => {
-  const userDetails = JSON.parse(localStorage.getItem("userData"));
-
+const Card = (props) => {
   const [carddata, setCarddata] = useState([]);
 
   useEffect(() => {
@@ -14,7 +12,7 @@ const Card = () => {
           method: "get",
           headers: {
             "Content-Type": "application/json",
-            userid: userDetails._id,
+            userid: props.userid,
           },
         };
         const response = await fetch(url, option);
@@ -25,13 +23,13 @@ const Card = () => {
 
         setCarddata(data.message);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     getprofiledata();
-  }, []);
+  }, [props.userid]);
 
-  console.log(carddata);
+  // console.log(carddata);
   return (
     <>
       <div className="container">

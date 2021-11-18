@@ -27,7 +27,7 @@ const OtpVerifyPage = () => {
 
       const response = await fetch(url, option);
 
-      const data = await response.json();
+      // const data = await response.json();
 
       // console.log(data);
 

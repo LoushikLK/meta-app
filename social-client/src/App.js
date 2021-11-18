@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js'
 import { Navbar } from './component/navbar/Navbar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { actionCreators } from './store'
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -20,6 +20,7 @@ import CompleteProfile from './component/common/CompleteProfile';
 import OtpVerifyPage from './component/common/OtpVerifyPage';
 import ForgetPassword from './component/common/ForgetPassword';
 import TermsandCondition from './component/common/TermsandCondition';
+import UserProfile from './component/profile/UserProfile';
 
 
 
@@ -27,13 +28,13 @@ import TermsandCondition from './component/common/TermsandCondition';
 
 function App() {
   const dispatch = useDispatch()
-  const userDetail = useSelector((state) => state.userDetail);
+  // const userDetail = useSelector((state) => state.userDetail);
   const [isLogin, setIsLogin] = useState(false)
 
 
   // console.log(isLogin);
 
-  console.log(userDetail);
+  // console.log(userDetail);
 
 
 
@@ -45,7 +46,7 @@ function App() {
 
       const response = await fetch(url);
 
-      const data = await response.json();
+      // const data = await response.json();
 
       // console.log(data);
 
@@ -79,6 +80,7 @@ function App() {
           <Route path="/verifyotp" component={OtpVerifyPage} exact />
           <Route path="/changepassword" component={ForgetPassword} exact />
           <Route path="/completeprofile" component={CompleteProfile} exact />
+          <Route path="/user/:username" component={UserProfile} exact />
           <Route path="/terms" component={TermsandCondition} exact />
           <ProtectedRoute exact path="/" component={Homefeed} />
           <ProtectedRoute path="/profile" component={Profile} />

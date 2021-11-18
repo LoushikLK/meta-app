@@ -4,8 +4,6 @@ const path = require("path")
 const cookieParser = require('cookie-parser')
 
 
-const http = require('http');
-const server = http.createServer(app);
 
 //express tp parse cookies 
 app.use(cookieParser())
@@ -21,9 +19,8 @@ app.use(express.static(path.resolve(__dirname, './social-client/build')));
 //configure environment veriable
 require('dotenv').config()
 
-app.use(express());
 
-app.use(require("cors")())
+
 
 const PORT = process.env.PORT;
 
@@ -89,41 +86,9 @@ app.get('*', (req, res) => {
 
 //////////////////////////////socket io////////////////////////////////////////
 
-const io = require("socket.io")(server)
 
 
-let users = []
-
-
-
-io.on('connection', (socket) => {
-    // console.log('a user connected');
-    socket.on('new-user-joined', details => {
-        // console.log(details);
-
-        details = JSON.parse(details)
-
-        users.push(details.name)
-
-        // console.log(users);
-
-        // let unique = users.filter((item, i, ar) => ar.indexOf(item) === i);
-        users = users.filter((item, i, ar) => ar.indexOf(item) === i);
-
-        console.log(users);
-
-        // // users[socket.id] = name;
-        socket.broadcast.emit('user-joined', JSON.stringify({ details, length: users.length }));
-
-    });
-
-    socket.on("send-chat-message", data => {
-        console.log(data);
-        socket.broadcast.emit("recieve-chat-message", data)
-    })
-});
-
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server Started at Port ${PORT}🗃️`);
 })
 

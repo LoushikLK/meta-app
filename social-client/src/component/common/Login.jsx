@@ -78,7 +78,9 @@ const Login = () => {
     if (userDetail.isLogin === true) {
       return history.push("/");
     }
-    return;
+    return () => {
+      setLoading(false);
+    };
   });
 
   useEffect(() => {

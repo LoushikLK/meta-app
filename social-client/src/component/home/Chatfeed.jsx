@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./home.css";
-import profileicon from "../../image/profiledemo/profile.jpg";
+// import profileicon from "../../image/profiledemo/profile.jpg";
 
 const Chatfeed = () => {
   const [chatPeople, setChatPeople] = useState([]);
@@ -27,11 +27,11 @@ const Chatfeed = () => {
         setChatPeople(data.message);
         // console.log(data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getdetail();
-  }, []);
+  }, [userDetails._id]);
   return (
     <>
       <section className="home-chat-main">
@@ -39,10 +39,11 @@ const Chatfeed = () => {
           <h3 className="text-secondary">Contact</h3>
           <hr />
           <div className="home-friends ">
-            {chatPeople.length === 0 ? (
-              "Frequent Chat Contact Will Show Here"
-            ) : (
-              <div className="my-2">
+            {
+              chatPeople.length === 0
+                ? "Frequent Chat Contact Will Show Here"
+                : ""
+              /* <div className="my-2">
                 <img
                   src={profileicon}
                   alt=""
@@ -50,8 +51,8 @@ const Chatfeed = () => {
                   style={{ height: "40px", width: "40px" }}
                 />
                 <span className="fw-bold px-2">John cena</span>
-              </div>
-            )}
+              </div> */
+            }
           </div>
         </div>
       </section>

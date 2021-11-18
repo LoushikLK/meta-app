@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./profile.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -14,8 +14,11 @@ import Metaloading from "../common/Metaloading";
 
 const Profile = () => {
   document.title = "Profile";
+  const userDetails = JSON.parse(localStorage.getItem("userData"));
 
-  const [showComponent, setShowComponent] = useState(<Timeline />);
+  const [showComponent, setShowComponent] = useState(
+    <Timeline userid={userDetails._id} />
+  );
 
   const [metaloading, setMetaloading] = useState(false);
 
@@ -31,9 +34,7 @@ const Profile = () => {
   const [updateCover, setUpdateCover] = useState(false);
   const [updateProfileImage, setUpdateProfileImage] = useState(false);
 
-  const userDetails = JSON.parse(localStorage.getItem("userData"));
-
-  console.log(userDetails);
+  // console.log(userDetails);
 
   const history = useHistory();
 
@@ -52,16 +53,16 @@ const Profile = () => {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
-  console.log(coverImage.file);
+  // console.log(coverImage.file);
 
   const updatecover = async (e) => {
     setMetaloading(true);
     e.preventDefault();
-    console.log("updating cover");
+    // console.log("updating cover");
     let url = " /updateprofile/updatecover";
 
     try {
@@ -74,7 +75,7 @@ const Profile = () => {
             userid: userDetails._id,
           },
         });
-        console.log(response.data);
+        // console.log(response.data);
 
         setCoverImage({ ...coverImage, file: null });
         if (response) {
@@ -82,9 +83,9 @@ const Profile = () => {
           setUpdateCover(false);
         }
       }
-      console.log("no file");
+      // console.log("no file");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   const previewProfileImage = async (e) => {
@@ -100,7 +101,7 @@ const Profile = () => {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -373,7 +374,7 @@ const Profile = () => {
                     className="nav-link fw-bold text-secondary btn px-2"
                     aria-current="page"
                     onClick={() => {
-                      setShowComponent(<Timeline />);
+                      setShowComponent(<Timeline userid={userDetails._id} />);
                     }}
                   >
                     Timeline
@@ -383,7 +384,7 @@ const Profile = () => {
                   <button
                     className="nav-link fw-bold text-secondary btn px-2"
                     onClick={() => {
-                      setShowComponent(<Card />);
+                      setShowComponent(<Card userid={userDetails._id} />);
                     }}
                   >
                     Posts

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import "./common.css";
 import Popup from "./Popup";
-import TermsandCondition from "./TermsandCondition";
 
 const Signup = () => {
   const [email, setEmail] = useState("");

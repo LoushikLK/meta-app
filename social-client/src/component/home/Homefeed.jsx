@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../common/Loading";
-import Popup from "../common/Popup";
+// import Popup from "../common/Popup";
 import Post from "../post/Post";
 import UploadToogleUi from "../upload-ui/UploadToogleUi";
 import Chatfeed from "./Chatfeed";
@@ -31,21 +31,25 @@ const Homefeed = () => {
         const response = await fetch(url, option);
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (response.status === 200) {
           setApi(data.message);
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 
     getapidata();
+    return () => {
+      setApi([]);
+      setLoading(false);
+    };
   }, [userDetails._id]);
 
-  console.log(api.length);
+  // console.log(api.length);
 
   //new id concept use in home to show new post upto 2 days
 

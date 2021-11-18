@@ -87,7 +87,7 @@ const Post = (props) => {
 
       const response = await fetch(url, option);
 
-      const data = await response.json();
+      // const data = await response.json();
 
       if (response.status === 200) {
         setCount(count + 1);
@@ -95,7 +95,7 @@ const Post = (props) => {
 
       // console.log(data.message);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -125,17 +125,36 @@ const Post = (props) => {
 
       const response = await fetch(url, option);
 
-      const data = await response.json();
+      if (response.status !== 200) {
+        alert("Something went wrong");
+        return;
+      }
+
+      // const data = await response.json();
 
       // console.log(data.message);
       setShowmessageBox(false);
       setCommentText("");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
-  const sharefn = async (userid, postid) => {
-    console.log("user share " + userid);
+
+  const sharefn = async () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: `${userDetails.profileName} on META.`,
+          text: "findme on meta",
+          url: "http://metaaa.herokuapp.com/user/" + userDetails.profileName,
+        })
+        .then(() => {
+          // console.log("shared");
+        })
+        .catch((err) => {
+          // console.log(err);
+        });
+    }
   };
 
   return (
@@ -188,11 +207,7 @@ const Post = (props) => {
             >
               <img src={commentIcon} alt="" className="interaction-icon" />
             </span>
-            <span
-              onClick={() => {
-                sharefn(props.mainid, props.postid);
-              }}
-            >
+            <span onClick={sharefn}>
               <img src={shareIcon} alt="" className="interaction-icon" />
             </span>
           </div>

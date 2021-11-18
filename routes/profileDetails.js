@@ -42,4 +42,37 @@ router.post("/friends", auth, async (req, res) => {
     }
 })
 
+router.get("/:userName", async (req, res) => {
+    console.log(req.params.userName);
+    if (req.params.userName == null) {
+        return
+    }
+    try {
+        const user = await profiledata.findOne({ profileName: req.params.userName })
+
+        console.log(user);
+
+        if (user) {
+            let userdata = {
+                profileName: user.profileName,
+                profilePicture: user.profilePicture,
+                coverPicture: user.coverPicture,
+                bio: user.bio,
+                _id: user._id,
+                following: user.following.length,
+                followers: user.followers.length,
+                post: user.post.length,
+                about: user.about,
+            }
+            res.status(200).json({ message: userdata })
+            return
+        }
+        res.status(400).json({ message: "User does not exist." })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "Something went wrong" })
+    }
+})
+
 module.exports = router
