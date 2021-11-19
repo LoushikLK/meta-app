@@ -43,7 +43,7 @@
   border: 0 solid;
   background-color: #c2dbff;
   border-radius: 5px;
-  width: 20rem;
+  width: 21rem;
   height: 2.5rem;
   padding: 1rem;
   color: var(--primary-color);
@@ -82,7 +82,7 @@
 }
 .popup-message {
   padding: 1rem;
-  width: 650px;
+  width: 500px;
   height: auto;
   display: flex;
   align-items: center;
@@ -125,4 +125,16 @@
 .upload-profile-detail h2 {
   background: transparent;
   color: var(--primary-color);
+}
+
+@media screen and (max-width: 400px) {
+  .popup-message {
+    width: 300px;
+  }
+  .login-form {
+    padding: 0 !important;
+  }
+  .login-form input {
+    width: 100%;
+  }
 }

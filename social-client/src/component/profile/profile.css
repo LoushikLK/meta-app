@@ -75,7 +75,12 @@
   box-shadow: 0px 0px 12px #00000045;
   border-radius: 0.5rem;
 }
-
+.profile-tab {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 50%;
+}
 @media (max-width: 800px) {
   .profile-post-main {
     width: 100%;
@@ -83,5 +88,15 @@
 
   .profile-about {
     display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile-stats {
+    justify-content: space-evenly;
+  }
+  .profile-tab {
+    width: 100%;
+    justify-content: space-around;
   }
 }

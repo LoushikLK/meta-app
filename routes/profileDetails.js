@@ -50,7 +50,7 @@ router.get("/:userName", async (req, res) => {
     try {
         const user = await profiledata.findOne({ profileName: req.params.userName })
 
-        console.log(user);
+        // console.log(user);
 
         if (user) {
             let userdata = {

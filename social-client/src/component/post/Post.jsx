@@ -145,7 +145,7 @@ const Post = (props) => {
       navigator
         .share({
           title: `${userDetails.profileName} on META.`,
-          text: "findme on meta",
+          text: "Findme on Meta",
           url: "http://metaaa.herokuapp.com/user/" + userDetails.profileName,
         })
         .then(() => {

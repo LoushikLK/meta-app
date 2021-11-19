@@ -7,59 +7,67 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   // const [error, setError] = useState(false);
   const [popup, setPopup] = useState(false);
   const [flashmsg, setFlashmsg] = useState("");
   const history = useHistory();
 
+  const userValidate = RegExp(/^[a-zA-Z0-9_]+$/);
+  const emailValidate = RegExp(
+    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+  );
+
+  console.log(userValidate.test(username));
   const formSubmit = async (e) => {
+    e.preventDefault();
+    if (userValidate.test(username) === false) {
+      setFlashmsg("Username can only contain letters, numbers and underscore");
+      setPopup(true);
+      return;
+    } else if (emailValidate.test(email) === false) {
+      setFlashmsg("Please enter a valid email");
+      setPopup(true);
+      return;
+    } else if (password !== confirmPassword) {
+      setFlashmsg("Password and confirm password does not match");
+      setPopup(true);
+      return;
+    }
     try {
-      e.preventDefault();
-      // console.log(gender);
+      const url = "/usersignin/signup";
+      const option = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          password,
+        }),
+      };
 
-      if (password === confirmPassword) {
-        const url = "/usersignin/signup";
-        const option = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            firstName,
-            lastName,
-            password,
-          }),
-        };
+      // console.log(option.body);
 
-        console.log(option.body);
+      const response = await fetch(url, option);
 
-        const response = await fetch(url, option);
+      const data = await response.json();
 
-        const data = await response.json();
+      // console.log(data);
 
-        console.log(data);
-
-        if (data.message !== undefined) {
-          setFlashmsg(data.message);
-          setPopup(true);
-        }
-
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
-        setFirstName("");
-        setLastName("");
-
-        if (response.status === 200) {
-          history.push("/verifyotp");
-        }
-      } else {
+      if (data.message !== undefined) {
+        setFlashmsg(data.message);
         setPopup(true);
-        setFlashmsg("Password Doesnot Match Try Again");
-        return;
+      }
+
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setUsername("");
+
+      if (response.status === 200) {
+        history.push("/verifyotp");
       }
     } catch (err) {
       console.log(err);
@@ -69,7 +77,7 @@ const Signup = () => {
   useEffect(() => {
     setTimeout(() => {
       setPopup(false);
-    }, 5000);
+    }, 3000);
     // eslint-disable-next-line
   }, [popup]);
 
@@ -104,33 +112,18 @@ const Signup = () => {
               />
             </g>
           </svg>
-          <form method="post">
-            <label htmlFor="fname" className="fw-bold my-1 ">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstname"
-              id="fname"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-              required
-            />
-
+          <form>
             <label htmlFor="lname" className="fw-bold my-1 ">
-              Last Name
+              User Name
             </label>
             <input
               type="text"
-              name="lastname"
+              name="username"
               id="lname"
-              placeholder="Last Name"
-              value={lastName}
+              placeholder="Username only contains letter,number & _"
+              value={username}
               onChange={(e) => {
-                setLastName(e.target.value);
+                setUsername(e.target.value);
               }}
               required
             />

@@ -6,6 +6,8 @@ const Timeline = (props) => {
   const [timelinedata, setTimelinedata] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // console.log(props.userid);
+
   // const userDetails = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
@@ -35,6 +37,9 @@ const Timeline = (props) => {
       }
     };
     getprofiledata();
+    return () => {
+      setTimelinedata([]);
+    };
   }, [props.userid]);
 
   // console.log(timelinedata);

@@ -30,8 +30,10 @@ const UserProfile = (props) => {
         // console.log(res.data);
         if (res.status === 200) {
           setUserDetails(res.data.message);
+          setShowComponent(<Timeline userid={res.data.message._id} />);
+        } else if (res.status !== 200) {
+          history.push("/pagedoesnotexist");
         }
-        history.push("/pagedoesnotexist");
       } catch (error) {
         // console.log(error);
       }
@@ -41,14 +43,12 @@ const UserProfile = (props) => {
 
   //   console.log(username);
 
-  const [showComponent, setShowComponent] = useState(
-    <Timeline userid={userDetails._id} />
-  );
+  const [showComponent, setShowComponent] = useState(null);
 
   return (
     <>
       {userDetails._id === null || userDetails._id === undefined ? (
-        <h1>Nothing to show</h1>
+        <h1>Loading...</h1>
       ) : (
         <div className="container">
           <div className="profile-main">
@@ -79,7 +79,7 @@ const UserProfile = (props) => {
                     ? userDetails.followers
                     : 0}
                 </span>
-                <span className="follower-stat btn btn-primary my-2">
+                <span className="follower-stat text-primary my-2 fs-5">
                   Followers
                 </span>
               </div>
@@ -90,7 +90,7 @@ const UserProfile = (props) => {
                     : 0}
                 </span>
 
-                <span className="following-stat btn btn-primary my-2">
+                <span className="following-stat text-primary my-2 fs-5">
                   Following
                 </span>
               </div>
@@ -100,13 +100,13 @@ const UserProfile = (props) => {
                     ? userDetails.post
                     : 0}
                 </span>
-                <span className="post-stat btn btn-primary my-2">Post</span>
+                <span className="post-stat text-primary my-2 fs-5">Post</span>
               </div>
             </div>
 
             <div className="navbar profile-nav">
               <div className="container-fluid">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row justify-content-evenly w-50 ">
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row profile-tab ">
                   <li className="nav-item">
                     <button
                       className="nav-link fw-bold text-secondary btn px-2"

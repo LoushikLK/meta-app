@@ -88,100 +88,124 @@ router.post("/login", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
 
+    const userValidate = RegExp(/^[a-zA-Z0-9_]+$/);
+    const emailValidate = RegExp(
+        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    );
+
+    let email = req.body.email
+    let username = req.body.username
+    let password = req.body.password
+    if (email === null || password === null || username === null) {
+
+        res.status(400).json({ message: "Please fill all the field." })
+        return
+    }
+    else if (userValidate.test(username) === false) {
+        res.status(400).json({ message: "Username can only contain letter,number,_" })
+        return
+    }
+    else if (emailValidate.test(email) === false) {
+        res.status(400).json({ message: "Enter a valid email." })
+        return
+    }
+
+
     try {
 
 
 
         console.log(req.body);
 
-        let email = req.body.email
-        let firstname = req.body.firstName
-        let lastname = req.body.lastName
-        let password = req.body.password
 
-        if (email && firstname && password && lastname != undefined || null) {
 
-            let checkemail = await profileDb.findOne({ email: email })
 
-            if (checkemail) {
+        let checkemail = await profileDb.findOne({ email: email })
+        let checkusername = await profileDb.findOne({ profieName: username })
 
-                console.log(" email already exist" + checkemail);
-                res.status(400).json({ message: "Email Already Exist." })
+        if (checkemail) {
+
+            console.log(" email already exist" + checkemail);
+            res.status(400).json({ message: "Email Already Exist." })
+
+            return
+        }
+
+        else if (checkusername) {
+
+            console.log("username already exist" + checkusername);
+            res.status(400).json({ message: "Username Already Exist." })
+
+            return
+        }
+
+        else {
+
+
+
+            const oauth2Client = new OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+
+            oauth2Client.setCredentials({
+                refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+            });
+
+            const accessToken = oauth2Client.getAccessToken()
+
+
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    type: "OAuth2",
+                    user: "gangmbj@gmail.com",
+                    clientId: process.env.GOOGLE_CLIENT_ID,
+                    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+                    accessToken: accessToken
+                }
+            });
+
+
+            var otp = Math.floor(1000 + Math.random() * 9000);
+
+            console.log(otp);
+
+            // let jwttoken = jwt.sign({ email: email }, process.env.EMAIL_JWT_SECRET, { expiresIn: "1h" });
+
+            // console.log(jwttoken);
+
+            const mailOptions = {
+                from: "gangmbj@gmail.com",
+                to: email,
+                subject: "META Email Confirm",
+                generateTextFromHTML: true,
+                text: `${otp}`,
+                html: `<b>Your OTP is ${otp}</>`
+            };
+
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, response) => {
+                error ? console.log(error) : console.log(response);
+                transporter.close();
+            });
+
+            let hashotp = await bcrypt.hash(`${otp}`, saltRound)
+
+            if (hashotp) {
+
+                let usercookiedata = {
+                    email, username, password, otp: hashotp
+                }
+
+                res.status(200).cookie("userdata", usercookiedata, { httpOnly: true }).json({ message: "email send to reciver" })
 
                 return
             }
 
-            else {
-
-
-
-                const oauth2Client = new OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, "https://developers.google.com/oauthplayground");
-
-                oauth2Client.setCredentials({
-                    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
-                });
-
-                const accessToken = oauth2Client.getAccessToken()
-
-
-                // create reusable transporter object using the default SMTP transport
-                let transporter = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        type: "OAuth2",
-                        user: "gangmbj@gmail.com",
-                        clientId: process.env.GOOGLE_CLIENT_ID,
-                        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-                        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-                        accessToken: accessToken
-                    }
-                });
-
-
-                var otp = Math.floor(1000 + Math.random() * 9000);
-
-                console.log(otp);
-
-                // let jwttoken = jwt.sign({ email: email }, process.env.EMAIL_JWT_SECRET, { expiresIn: "1h" });
-
-                // console.log(jwttoken);
-
-                const mailOptions = {
-                    from: "gangmbj@gmail.com",
-                    to: email,
-                    subject: "META Email Confirm",
-                    generateTextFromHTML: true,
-                    text: `${otp}`,
-                    html: `<b>Your OTP is ${otp}</>`
-                };
-
-
-                // send mail with defined transport object
-                transporter.sendMail(mailOptions, (error, response) => {
-                    error ? console.log(error) : console.log(response);
-                    transporter.close();
-                });
-
-                let hashotp = await bcrypt.hash(`${otp}`, saltRound)
-
-                if (hashotp) {
-
-                    let usercookiedata = {
-                        email, firstname, lastname, password, otp: hashotp
-                    }
-
-                    res.status(200).cookie("userdata", usercookiedata, { httpOnly: true }).json({ message: "email send to reciver" })
-
-                    return
-                }
-
-
-            }
 
         }
-        else {
-            res.status(420).json({ message: "Please Fill all the field. " })
-        }
+
 
     }
     catch (err) {
@@ -191,13 +215,27 @@ router.post("/signup", async (req, res) => {
 })
 
 router.post("/emailverification", async (req, res) => {
+    let userdata = req.cookies.userdata
+
+    const userValidate = RegExp(/^[a-zA-Z0-9_]+$/);
+    const emailValidate = RegExp(
+        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    );
+
+    if (userValidate.test(userdata.username) === false) {
+        res.status(400).json({ message: "Username can only contain letter,number,_" })
+        return
+    }
+    else if (emailValidate.test(userdata.email) === false) {
+        res.status(400).json({ message: "Enter a valid email." })
+        return
+    }
 
     try {
         // console.log(req.cookies)
         // console.log(req.body);
-        let userdata = req.cookies.userdata
         // console.log(userdata);
-        console.log(`${userdata.firstname} ${userdata.lastname}`);
+
 
         const verified = await bcrypt.compare(req.body.otp, req.cookies.userdata.otp)
 
@@ -211,7 +249,6 @@ router.post("/emailverification", async (req, res) => {
         }
 
 
-
         else if (verified) {
 
 
@@ -222,7 +259,7 @@ router.post("/emailverification", async (req, res) => {
                 let userProfileData = new profileDb({
                     email: userdata.email,
                     password: result,
-                    profileName: `${userdata.firstname} ${userdata.lastname}`,
+                    profileName: userdata.username,
                     new: true,
                     profileCreated: new Date(Date.now()).toLocaleDateString()
                 })

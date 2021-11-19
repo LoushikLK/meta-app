@@ -8,7 +8,7 @@ router.get("/timeline", auth, async (req, res) => {
 
     let userid = req.header("userid")
 
-    // console.log(userid);
+    console.log(userid + "hii user");
 
     try {
 

@@ -262,8 +262,6 @@ const Profile = () => {
                       <span
                         style={{
                           zIndex: "9999999",
-                          position: "relative",
-                          bottom: "45px",
                           width: "10rem",
                         }}
                         className="btn btn-primary mx-1"
@@ -343,7 +341,7 @@ const Profile = () => {
                   ? userDetails.followers
                   : 0}
               </span>
-              <span className="follower-stat btn btn-primary my-2">
+              <span className="follower-stat text-primary my-2 fs-5">
                 Followers
               </span>
             </div>
@@ -354,7 +352,7 @@ const Profile = () => {
                   : 0}
               </span>
 
-              <span className="following-stat btn btn-primary my-2">
+              <span className="following-stat text-primary my-2 fs-5">
                 Following
               </span>
             </div>
@@ -362,13 +360,13 @@ const Profile = () => {
               <span className="fs-4">
                 {userDetails.post !== undefined || null ? userDetails.post : 0}
               </span>
-              <span className="post-stat btn btn-primary my-2">Post</span>
+              <span className="post-stat text-primary my-2 fs-5">Post</span>
             </div>
           </div>
 
           <div className="navbar profile-nav">
             <div className="container-fluid">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row justify-content-evenly w-50 ">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row profile-tab ">
                 <li className="nav-item">
                   <button
                     className="nav-link fw-bold text-secondary btn px-2"

@@ -92,8 +92,6 @@ const Message = () => {
 
   const renderChat = () => {
     return conversations.map((value, index) => {
-      console.log(value.user === user.profileName);
-
       return (
         <div
           key={index}
@@ -102,32 +100,39 @@ const Message = () => {
         >
           {value.user === user.profileName ? (
             <>
-              <div className="sent-message m-2" key={index}>
-                <img
-                  src={value.image}
-                  alt=""
-                  className="profile-logo mx-2 "
-                  style={{ height: "30px", width: "30px" }}
-                />
+              <a href="/profile" className="nav-link bg-transparent">
+                <div className="sent-message m-2" key={index}>
+                  <img
+                    src={value.image}
+                    alt=""
+                    className="profile-logo mx-2 "
+                    style={{ height: "30px", width: "30px" }}
+                  />
 
-                <p> {value.message}</p>
-              </div>
+                  <p> {value.message}</p>
+                </div>
+              </a>
             </>
           ) : (
             <>
-              <div className=" d-block received-message m-2" key={index}>
-                <img
-                  src={value.image}
-                  alt=""
-                  className="profile-logo mx-2 "
-                  style={{ height: "30px", width: "30px" }}
-                />
+              <a
+                href={`/user/${value.user}`}
+                className="nav-link bg-transparent"
+              >
+                <div className=" d-block received-message m-2" key={index}>
+                  <img
+                    src={value.image}
+                    alt=""
+                    className="profile-logo mx-2 "
+                    style={{ height: "30px", width: "30px" }}
+                  />
 
-                <p>
-                  <span style={{ color: "#00ffff" }}>{value.user}</span> :{" "}
-                  {value.message}
-                </p>
-              </div>
+                  <p>
+                    <span style={{ color: "#00ffff" }}>{value.user}</span> :{" "}
+                    {value.message}
+                  </p>
+                </div>
+              </a>
             </>
           )}
           {/* <div
