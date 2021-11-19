@@ -81,7 +81,6 @@
   bottom: 0;
 }
 .message-view {
-  min-height: 100vh;
   background-image: url("../../image/message/background.jpg");
   background-attachment: fixed;
   background-position: center;
