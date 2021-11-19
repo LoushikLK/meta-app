@@ -22,6 +22,8 @@ app.use(express.static(path.resolve(__dirname, './social-client/build')));
 //configure environment veriable
 require('dotenv').config()
 
+const cors = require("cors")
+
 app.use(cors())
 
 app.use(express());
