@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
 const path = require("path")
 const cookieParser = require('cookie-parser')
+
 
 
 
@@ -89,8 +92,7 @@ app.get('*', (req, res) => {
 
 //////////////////////////////socket io////////////////////////////////////////
 
-const http = require('http');
-const server = http.createServer(app);
+
 
 
 
