@@ -24,7 +24,7 @@ const Message = () => {
   //////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
-    socketRef.current = io("http://meta-socket.herokuapp.com", {
+    socketRef.current = io("/", {
       transports: ["websocket"],
     });
     let userconnected = JSON.stringify({

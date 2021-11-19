@@ -19,6 +19,9 @@ app.use(express.static(path.resolve(__dirname, './social-client/build')));
 //configure environment veriable
 require('dotenv').config()
 
+app.use(cors())
+
+app.use(express());
 
 
 
@@ -86,9 +89,46 @@ app.get('*', (req, res) => {
 
 //////////////////////////////socket io////////////////////////////////////////
 
+const http = require('http');
+const server = http.createServer(app);
 
 
-app.listen(PORT, () => {
-    console.log(`Server Started at Port ${PORT}🗃️`);
+
+const io = require("socket.io")(server)
+
+
+let users = []
+
+
+
+io.on('connection', (socket) => {
+    // console.log('a user connected');
+    socket.on('new-user-joined', details => {
+        // console.log(details);
+
+        details = JSON.parse(details)
+
+        users.push(details.name)
+
+        // console.log(users);
+
+        // let unique = users.filter((item, i, ar) => ar.indexOf(item) === i);
+        users = users.filter((item, i, ar) => ar.indexOf(item) === i);
+
+        console.log(users);
+
+        // // users[socket.id] = name;
+        socket.broadcast.emit('user-joined', JSON.stringify({ details, length: users.length }));
+
+    });
+
+    socket.on("send-chat-message", data => {
+        console.log(data);
+        io.emit("recieve-chat-message", data)
+    })
+});
+
+server.listen(PORT, () => {
+    console.log(`socket server started at port ${PORT}`)
 })
 
