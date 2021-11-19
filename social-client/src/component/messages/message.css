@@ -8,6 +8,11 @@
   background-color: transparent;
   border-bottom: 1px solid var(--secondary-color);
 }
+.message-main {
+  position: fixed;
+  padding: 0 7rem;
+  width: 100%;
+}
 .message-sneak {
   display: flex;
   flex-direction: column;
@@ -81,14 +86,27 @@
   bottom: 0;
 }
 .message-view {
+  min-height: 100vh;
   background-image: url("../../image/message/background.jpg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
+@media screen and (max-width: 768px) {
+  .message-main {
+    position: fixed;
+    padding: 0 4rem;
+    width: 100%;
+  }
+}
 @media screen and (max-width: 405px) {
-  .message-form {
-    flex-direction: column;
+  .message-extra-button {
+    display: none !important;
+  }
+  .message-main {
+    position: fixed;
+    padding: 0 0.5rem;
+    width: 100%;
   }
 }

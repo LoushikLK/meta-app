@@ -149,7 +149,7 @@ const Message = () => {
 
   return (
     <>
-      <section className="message-main container mt-5">
+      <section className="message-main  mt-5">
         <div className="message-container">
           <div className="sender-detail ">
             <span className="d-flex flex-column align-items-start">
@@ -201,10 +201,10 @@ const Message = () => {
               >
                 <img src={sendicon} alt="" style={{ width: "2rem" }} />
               </button>
-              <button className="btn  d-flex px-2 align-items-center justify-content-center ">
+              <button className="btn  d-flex px-2 align-items-center justify-content-center message-extra-button">
                 <img src={emojiicon} alt="" style={{ width: "2rem" }} />
               </button>
-              <button className="btn  d-flex px-2 align-items-center justify-content-center ">
+              <button className="btn  d-flex px-2 align-items-center justify-content-center message-extra-button">
                 <img src={doticon} alt="" style={{ width: "2rem" }} />
               </button>
             </div>

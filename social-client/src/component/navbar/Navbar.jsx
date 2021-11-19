@@ -52,7 +52,7 @@ export const Navbar = () => {
       {isLogin ? (
         <nav className="navbar navbar-expand-lg sticky-top  px-5  navbar-main ">
           <div className="container-fluid">
-            <NavLink className="navbar-brand" to="/">
+            <NavLink className="navbar-brand brand-logo" to="/">
               <span className="d-flex align-items-center flex-row">
                 <svg
                   version="1.0"

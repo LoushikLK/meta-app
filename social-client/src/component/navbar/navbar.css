@@ -77,4 +77,7 @@
   .container-fluid {
     justify-content: center !important;
   }
+  .brand-logo {
+    display: none;
+  }
 }
