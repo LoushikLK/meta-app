@@ -48,7 +48,7 @@ const Signup = () => {
         }),
       };
 
-      // console.log(option.body);
+      console.log(option.body);
 
       const response = await fetch(url, option);
 

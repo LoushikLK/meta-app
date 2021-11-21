@@ -92,7 +92,7 @@ const Login = () => {
     <>
       <section className="login-main bg-primary">
         {popup ? <Popup message={flashmsg} /> : ""}
-        <div className="login-form p-5">
+        <div className="login-form p-3">
           <svg
             version="1.0"
             xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ const Login = () => {
               />
             </g>
           </svg>
-          <form action="/usersignin/login" method="post">
+          <form className="mx-5 ">
             <label htmlFor="loginEmail" className="fw-bold  ">
               Email
             </label>
@@ -165,7 +165,7 @@ const Login = () => {
             </span>
           </form>
           <div className="not-account">
-            <p>
+            <p className="text-center">
               Don't have an account?{" "}
               <span
                 className="text-primary fw-bold text-decoration-underline"

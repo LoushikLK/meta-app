@@ -88,6 +88,8 @@ router.post("/login", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
 
+
+
     const userValidate = RegExp(/^[a-zA-Z0-9_]+$/);
     const emailValidate = RegExp(
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
@@ -115,17 +117,19 @@ router.post("/signup", async (req, res) => {
 
 
 
-        console.log(req.body);
+        console.log(email);
 
 
 
 
         let checkemail = await profileDb.findOne({ email: email })
-        let checkusername = await profileDb.findOne({ profieName: username })
+
+        let checkusername = await profileDb.findOne({ profileName: username })
+
 
         if (checkemail) {
 
-            console.log(" email already exist" + checkemail);
+            // console.log(" email already exist" + checkemail);
             res.status(400).json({ message: "Email Already Exist." })
 
             return
@@ -133,7 +137,7 @@ router.post("/signup", async (req, res) => {
 
         else if (checkusername) {
 
-            console.log("username already exist" + checkusername);
+            // console.log("username already exist" + checkusername);
             res.status(400).json({ message: "Username Already Exist." })
 
             return
