@@ -84,6 +84,78 @@ router.post("/login", async (req, res) => {
         console.log("data not sent");
     }
 })
+router.post("/loginmobile", async (req, res) => {
+    try {
+
+        // console.log(req.body);
+
+        if (req.body.email && req.body.password != undefined || null) {
+            // console.log(req.body.email);
+            let userDetail = await profileDb.findOne({ email: req.body.email })
+
+            if (!userDetail) {
+                console.log("user unauthorised");
+                res.status(400).json({ message: "Email Does Not Exist. Sign up First." })
+            }
+            else if (userDetail) {
+
+                // console.log(userDetail._id);
+
+                const matched = await bcrypt.compare(req.body.password, userDetail.password)
+
+                if (!matched) {
+                    console.log(`${req.body.email} is unauthorised`);
+                    res.status(401).json({ message: "Email and Password Does Not Matched.Try Again." })
+                }
+
+                else {
+                    let jwttoken = jwt.sign({ _id: userDetail._id }, process.env.LOGIN_JWT_SECRET, { expiresIn: "11100001100011h" });
+
+                    // console.log(jwttoken);
+
+                    console.log(`${req.body.email} is authorised`);
+
+                    // console.log(userDetail);
+                    let mainuser = {
+                        _id: userDetail._id,
+                        profilePicture: userDetail.profilePicture,
+                        coverPicture: userDetail.coverPicture,
+                        profileName: userDetail.profileName,
+                        followers: userDetail.followers.length,
+                        following: userDetail.following.length,
+                        post: userDetail.post.length,
+                        bio: userDetail.bio,
+                        new: userDetail.new,
+
+                        about:
+                        {
+                            location: userDetail.about.location,
+                            profession: userDetail.about.profession,
+                            relationshipStatus: userDetail.about.relationshipStatus,
+                            gender: userDetail.about.gender
+                        }
+
+                    }
+
+                    res.status(200).cookie("authtoken", jwttoken).json({ message: mainuser })
+
+
+
+                }
+
+
+            }
+
+
+        }
+
+
+    }
+    catch (err) {
+        console.log(err);
+        console.log("data not sent");
+    }
+})
 
 
 router.post("/signup", async (req, res) => {
