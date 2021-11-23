@@ -48,6 +48,7 @@ const updateProfile = require("./routes/updateProfile")
 const homefeed = require("./routes/homefeed")
 const userUserIntraction = require("./routes/userUserIntraction")
 const message = require("./routes/message")
+const searchuser = require("./routes/SearchUser")
 
 app.use("/profilefeed", profilefeed)
 app.use("/usersignin", usersignin)
@@ -59,6 +60,7 @@ app.use("/updateprofile", updateProfile)
 app.use("/homefeed", homefeed)
 app.use("/userintraction", userUserIntraction)
 app.use("/message", message)
+app.use("/search", searchuser)
 
 
 
