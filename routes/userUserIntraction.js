@@ -11,7 +11,7 @@ router.put("/follow", auth, async (req, res) => {
     try {
         if (req.body && req.body.myname && req.body.interectname) {
 
-            const alreadyfollowing = await profiledata.findOne(req.body.myname)
+            const alreadyfollowing = await profiledata.findOne({ profileName: req.body.myname })
 
             // console.log(alreadyfollowing.following);
 

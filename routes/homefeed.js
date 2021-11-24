@@ -22,12 +22,12 @@ router.get("/", auth, async (req, res) => {
             let allfriendsarray = []
 
             user.following.map((value) => {
-                return allfriendsarray.push(value.id)
+                return allfriendsarray.push(value.name)
             })
 
             // $in for find multiple id result in an array///////////////////////
 
-            let friendsData = await profiledata.find({ "_id": { "$in": allfriendsarray } });
+            let friendsData = await profiledata.find({ "profileName": { "$in": allfriendsarray } });
 
             // console.log(allfriendsarray);
 
@@ -44,8 +44,6 @@ router.get("/", auth, async (req, res) => {
 
 
                         // console.log(value);
-
-
 
 
                         return value.post.map((items) => {
@@ -108,14 +106,14 @@ router.get("/sugesteduser", auth, async (req, res) => {
 
             let friends = []
 
-            user.following.forEach((elem) => { return friends.push(elem.id) })
+            user.following.forEach((elem) => { return friends.push(elem.name) })
 
             // console.log(friends);
 
 
             ///////////////////////data of friends user is following///////////
 
-            let friendsData = await profiledata.find({ "_id": { "$in": friends } });
+            let friendsData = await profiledata.find({ "profileName": { "$in": friends } });
 
             // console.log(friendsData);
 
