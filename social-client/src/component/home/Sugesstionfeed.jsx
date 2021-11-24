@@ -53,10 +53,6 @@ const Sugesstionfeed = () => {
 
     const data = await response.json();
 
-    if (profile.length > 0) {
-      setProfile(profile.filter((item) => item._id !== id));
-    }
-
     // console.log(data);
   };
 
