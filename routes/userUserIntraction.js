@@ -9,21 +9,21 @@ router.put("/follow", auth, async (req, res) => {
     // console.log(req.header("userid") + " is the userid");
 
     try {
-        if (req.body && req.body.id && req.body.interectId) {
+        if (req.body && req.body.myname && req.body.interectname) {
 
-            const alreadyfollowing = await profiledata.findById(req.body.id)
+            const alreadyfollowing = await profiledata.findOne(req.body.myname)
 
             // console.log(alreadyfollowing.following);
 
             let myarr = []
 
             alreadyfollowing.following.map((value) => {
-                myarr.push(value.id)
+                myarr.push(value.name)
             })
 
             // console.log(myarr);
 
-            if (myarr.indexOf(req.body.interectId) !== -1) {
+            if (myarr.indexOf(req.body.interectname) !== -1) {
 
                 console.log("already following");
                 return
@@ -32,15 +32,17 @@ router.put("/follow", auth, async (req, res) => {
 
             console.log("at follow");
 
-            const updatefollowing = await profiledata.findOneAndUpdate({ _id: req.body.id }, { $push: { following: { id: req.body.interectId } } }, {
+            const updatefollowing = await profiledata.findOneAndUpdate({ profileName: req.body.myname }, { $push: { following: { name: req.body.interectname } } }, {
                 new: true
             })
 
-            const updatefollowers = await profiledata.findOneAndUpdate({ _id: req.body.interectId }, { $push: { followers: { id: req.body.id }, notification: `${updatefollowing} started following you.` } }, {
+            const updatefollowers = await profiledata.findOneAndUpdate({ profileName: req.body.interectname }, { $push: { followers: { name: req.body.myname }, notification: `${updatefollowing} started following you.` } }, {
                 new: true
             })
 
             // console.log(user);
+
+            res.status(200).json({ message: "following" })
 
         }
 
@@ -63,7 +65,7 @@ router.put("/follow", auth, async (req, res) => {
 router.put("/unfollow", auth, async (req, res) => {
 
     try {
-        if (req.body && req.body.id && req.body.interectId) {
+        if (req.body && req.body.myname && req.body.interectname) {
 
             // console.log(req.body.interectId + "interect id");
 
@@ -73,11 +75,11 @@ router.put("/unfollow", auth, async (req, res) => {
 
             // console.log(user.following);
 
-            const unfollowuser = await profiledata.updateOne({ _id: req.body.id }, { "$pull": { "following": { "id": req.body.interectId } } }, { safe: true, multi: true })
+            const unfollowuser = await profiledata.updateOne({ profileName: req.body.myname }, { "$pull": { "following": { "name": req.body.interectname } } }, { safe: true, multi: true })
 
             // console.log(unfollowuser);
 
-            const followersunfollow = await profiledata.updateOne({ _id: req.body.interectId }, { "$pull": { "followers": { "id": req.body.id } } }, { safe: true, multi: true })
+            const followersunfollow = await profiledata.updateOne({ profileName: req.body.interectname }, { "$pull": { "followers": { "name": req.body.myname } } }, { safe: true, multi: true })
 
             // console.log(followersunfollow);
 

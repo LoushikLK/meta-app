@@ -57,10 +57,10 @@ const profileSchema = new mongoose.Schema({
 
     ],
     followers: [
-        { id: String },
+        { name: String },
     ],
     following: [
-        { id: String }
+        { name: String }
 
     ],
     privatePost: [

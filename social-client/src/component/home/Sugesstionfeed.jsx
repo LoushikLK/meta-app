@@ -34,7 +34,7 @@ const Sugesstionfeed = () => {
     };
   }, [userDetails._id]);
 
-  const handleFollow = async (id) => {
+  const handleFollow = async (name) => {
     // console.log(id);
 
     let url = `/userintraction/follow`;
@@ -44,8 +44,8 @@ const Sugesstionfeed = () => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        id: userDetails._id,
-        interectId: id,
+        myname: userDetails.profileName,
+        interectname: name,
       }),
     };
 
@@ -86,7 +86,7 @@ const Sugesstionfeed = () => {
                       className="home-follow btn btn-primary rounded-pill d-flex align-items-center"
                       style={{ height: "32px" }}
                       onClick={() => {
-                        handleFollow(value._id);
+                        handleFollow(value.profileName);
                       }}
                     >
                       follow
