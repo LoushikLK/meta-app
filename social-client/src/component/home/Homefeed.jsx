@@ -31,12 +31,13 @@ const Homefeed = () => {
         const response = await fetch(url, option);
 
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
 
         if (response.status === 200) {
           setApi(data.message);
           setLoading(false);
         }
+        setLoading(false);
       } catch (error) {
         // console.log(error);
       }

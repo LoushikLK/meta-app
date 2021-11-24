@@ -11,7 +11,7 @@ router.get("/", auth, async (req, res) => {
 
     try {
         const user = await profiledata.findById(req.header("userid"));
-        // console.log(user.followers);
+        // console.log(user.following);
 
         if (user.following.length > 0) {
 
@@ -25,11 +25,15 @@ router.get("/", auth, async (req, res) => {
                 return allfriendsarray.push(value.name)
             })
 
+            // console.log(allfriendsarray);
+
             // $in for find multiple id result in an array///////////////////////
 
             let friendsData = await profiledata.find({ "profileName": { "$in": allfriendsarray } });
 
             // console.log(allfriendsarray);
+
+            // console.log(friendsData);
 
             let allpost = []
 
@@ -69,14 +73,16 @@ router.get("/", auth, async (req, res) => {
             gethomefeedpost(friendsData)
             // console.log(allpost.reverse());
 
+            // console.log(allpost);
+
             if (allpost.length > 0) {
-                // console.log(allpost);
+                console.log(allpost);
                 return res.status(200).json({ message: allpost.reverse() })
 
             }
 
             res.status(400).json({ message: "Try adding some people as friends to see their post." })
-
+            return
 
         }
 
