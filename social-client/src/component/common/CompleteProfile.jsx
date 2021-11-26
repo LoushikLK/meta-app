@@ -34,12 +34,15 @@ const CompleteProfile = () => {
       dateofbirth.month === "" ||
       dateofbirth.year === ""
     ) {
+      alert("Please fill all the fields");
       console.log("fill all the blanks");
       return;
     } else if (bio.length > 40) {
+      alert("bio should be less than 40 characters");
       console.log("Keep bio length under 40 letter.");
       return;
     } else if (profession.length > 15 || location.length > 15) {
+      alert("profession and location should be less than 15 characters");
       console.log("Keep profession and location length under 15 letter.");
       return;
     }

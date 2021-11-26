@@ -310,7 +310,7 @@ router.post("/emailverification", async (req, res) => {
     try {
         // console.log(req.cookies)
         // console.log(req.body);
-        // console.log(userdata);
+        console.log(userdata);
 
 
         const verified = await bcrypt.compare(req.body.otp, req.cookies.userdata.otp)
