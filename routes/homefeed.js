@@ -27,6 +27,13 @@ router.get("/", auth, async (req, res) => {
 
             // console.log(allfriendsarray);
 
+            //add user itself to the array
+
+            allfriendsarray.push(user.profileName)
+
+            // console.log(allfriendsarray);
+
+
             // $in for find multiple id result in an array///////////////////////
 
             let friendsData = await profiledata.find({ "profileName": { "$in": allfriendsarray } });
@@ -76,7 +83,7 @@ router.get("/", auth, async (req, res) => {
             // console.log(allpost);
 
             if (allpost.length > 0) {
-                console.log(allpost);
+                // console.log(allpost + " is the allpost");
                 return res.status(200).json({ message: allpost.reverse() })
 
             }
